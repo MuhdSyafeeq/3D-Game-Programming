@@ -4,21 +4,45 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public float turnSpeed = 4.0f;
-    public Transform player;
+    [SerializeField] Transform Player;
+    [SerializeField] private Vector3 cameraOffset_;
 
-    private Vector3 offset;
+    [Range(0.01f, 1.0f)]
+    [SerializeField] private float SmoothFactor     = 0.5f;
+    [SerializeField] private float RotationSpeed    = 5.0f;
 
     void Start()
     {
-        offset = new Vector3(player.position.x, player.position.y + 0.5f, player.position.z - 3.5f);
+        cameraOffset_ = transform.position - Player.position;
     }
+
+    void Awake(){ }
+    void Update(){ }
+    void FixedUpdate() { }
 
     void LateUpdate()
     {
-        offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X") * turnSpeed, Vector3.up) * offset;
-        transform.position = player.position + offset;
-        transform.LookAt(player.position);
-    }
+       
+        Quaternion canTurnAngle = Quaternion.AngleAxis(
+            Input.GetAxis("Mouse X") * RotationSpeed,
+            Vector3.up
+            );
 
+        Quaternion turnUpAngle = Quaternion.AngleAxis(
+            Input.GetAxis("Mouse Y") * RotationSpeed,
+            Vector3.forward
+            );
+
+        cameraOffset_ = (turnUpAngle * canTurnAngle) * cameraOffset_;
+
+        Vector3 newPos = Player.position + cameraOffset_;
+
+        transform.position = Vector3.Slerp(
+            transform.position, 
+            newPos, 
+            SmoothFactor
+            );
+
+        transform.LookAt(Player.transform);
+    }
 }
