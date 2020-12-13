@@ -28,6 +28,12 @@ public class MoveCharacter : MonoBehaviour
 
         Vector3 movement = (transform.right * x) + (transform.forward * z);
 
+        if(!(this.transform.rotation.y < -90) || !(this.transform.rotation.y > 90))
+        {
+            if (x > 0) this.transform.Rotate(Vector3.up * x);
+            else if (x < 0) this.transform.Rotate(Vector3.up * x);
+        }
+
         controller.Move(movement * speed * Time.deltaTime);
 
         if (Input.GetButtonDown("Jump") && isGrounded) velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
