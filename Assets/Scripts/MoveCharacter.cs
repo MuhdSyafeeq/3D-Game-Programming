@@ -5,9 +5,13 @@ using UnityEngine;
 public class MoveCharacter : MonoBehaviour
 {
     [SerializeField] CharacterController controller;
+    [SerializeField] Transform cam;
     [SerializeField] float gravity = -9.87f;
-    [SerializeField] float speed = 5.5f;
+    [SerializeField] float speed = 6f;
     [SerializeField] float jumpHeight = 3f;
+
+    [SerializeField] float turnSmoothTime = 0.1f;
+    float turnSmoothVelocity;
 
     [SerializeField] Transform groundCheck;
     [SerializeField] float groundDistance = 0.4f;
@@ -20,26 +24,24 @@ public class MoveCharacter : MonoBehaviour
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
         if (isGrounded && velocity.y < 0) velocity.y = -2f;
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Vertical");
+        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
 
-        Vector3 movement = (transform.right * x) + (transform.forward * z);
-
-        if(!(this.transform.rotation.y < -90) || !(this.transform.rotation.y > 90))
+        if (direction.magnitude >= 0.1f)
         {
-            if (x > 0) this.transform.Rotate(Vector3.up * x);
-            else if (x < 0) this.transform.Rotate(Vector3.up * x);
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        controller.Move(movement * speed * Time.deltaTime);
-
         if (Input.GetButtonDown("Jump") && isGrounded) velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
         velocity.y += gravity * Time.deltaTime;
-
         controller.Move(velocity * Time.deltaTime);
     }
 }
