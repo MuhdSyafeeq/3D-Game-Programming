@@ -20,6 +20,16 @@ public class MoveCharacter : MonoBehaviour
     [SerializeField] private Vector3 velocity;
     [SerializeField] bool isGrounded;
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        var body = hit.collider.GetComponent<Rigidbody>();
+
+        // no rigidbody
+        if (body == null || body.isKinematic) { return; }
+        // We dont want to push objects below us
+        if (hit.moveDirection.y <= -0.3) { return; }
+    }
+
     // Update is called once per frame
     void Update()
     {
