@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class MoveCharacter : MonoBehaviour
 {
+    #region Singleton Method
+    public static MoveCharacter instance;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    #endregion
+
     [SerializeField] CharacterController controller;
     [SerializeField] Transform cam;
     [SerializeField] float gravity = -9.87f;

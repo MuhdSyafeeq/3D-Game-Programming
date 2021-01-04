@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class Clock : MonoBehaviour
 {
+    #region Singleton Method
+    public static Clock instance;
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    #endregion
+
     [SerializeField] private Transform sunTransform;
     [SerializeField] private Light sun;
     [SerializeField] private float angleAtNoon = 30;

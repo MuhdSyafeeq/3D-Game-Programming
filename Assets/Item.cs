@@ -1,17 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Item : MonoBehaviour
+[CreateAssetMenu(fileName = "New Item", menuName = "Inventory/Item")]
+public class Item : ScriptableObject
 {
-    [SerializeField] int rotationSpeed = 5;
-
-    void Update()
-    {
-        transform.Rotate(
-            this.transform.rotation.x,
-            rotationSpeed * Time.deltaTime,
-            this.transform.rotation.z
-            );
-    }
+    new public string name = "New Item";
+    public Sprite icon = null;
+    public bool isIngredient = false;
 }

@@ -1,23 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Marker : MonoBehaviour
 {
-    [SerializeField] private Transform mk_destination;
+    [SerializeField] GameManager gManager;
+    [SerializeField] string currentActiveScene = null;
+    
     [SerializeField] private float inTimer;
-    [SerializeField] private bool isAccess = false;
-    [SerializeField] private GameObject savedData;
+    [SerializeField] private bool isAccess = false, isEntered = false;
 
     private void LateUpdate()
     {
-        if (isAccess)
-        {
-            Vector3 offset = mk_destination.position + new Vector3(0, 3, 0);
-            savedData.transform.position = offset;
+        currentActiveScene = SceneManager.GetActiveScene().name;
 
+        if (isAccess && !isEntered)
+        {
+            isEntered = true;
             isAccess = false;
             inTimer = 0;
+
+            if(currentActiveScene == "Milestone1")
+            {
+                gManager.saveProgress(1);
+            }
+            else if(currentActiveScene == "House-Interior-A")
+            {
+                gManager.saveProgress(0);
+            }
         }
     }
 
@@ -29,12 +38,18 @@ public class Marker : MonoBehaviour
             Debug.Log("TriggeredStay: Entering -> " + other.name);
             if(other.tag == "Player")
             {
-                savedData = other.gameObject;
-
                 if(inTimer >= 2f) { isAccess = true; }
 
                 inTimer += Time.deltaTime;
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag != "House")
+        {
+            isEntered = false;
         }
     }
 }
