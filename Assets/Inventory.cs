@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour
     }
     #endregion
     [SerializeField] int capacity = 5; 
-    [SerializeField] List<Item> inventories = new List<Item>();
+    [SerializeField] public List<Item> inventories = new List<Item>();
 
     public bool Add(Item item)
     {
