@@ -11,6 +11,7 @@ public class Inventory : MonoBehaviour
         if(instance != null)
         {
             Debug.LogWarning("More than one instance(s) of Inventory found!");
+            
             return;
         }
 

@@ -3,6 +3,22 @@ using UnityEngine.SceneManagement;
 
 public class Marker : MonoBehaviour
 {
+    #region Singleton Method
+    public static Marker instance;
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.LogWarning("More than one instance(s) of Inventory found!");
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+    }
+    #endregion
+
+
     [SerializeField] GameManager gManager;
     [SerializeField] string currentActiveScene = null;
     
@@ -35,7 +51,7 @@ public class Marker : MonoBehaviour
     {
         if (other.tag != "House")
         {
-            Debug.Log("TriggeredStay: Entering -> " + other.name);
+            //Debug.Log("TriggeredStay: Entering -> " + other.name);
             if(other.tag == "Player")
             {
                 if(inTimer >= 2f) { isAccess = true; }
@@ -50,6 +66,8 @@ public class Marker : MonoBehaviour
         if (other.tag != "House")
         {
             isEntered = false;
+            isAccess = false;
+            inTimer = 0;
         }
     }
 }
