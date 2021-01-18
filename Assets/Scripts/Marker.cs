@@ -3,22 +3,37 @@ using UnityEngine.SceneManagement;
 
 public class Marker : MonoBehaviour
 {
-    #region Singleton Method
+    
     public static Marker instance;
     void Awake()
     {
-        if (instance != null)
+        // Collider Transfering
+        foreach(Transform child in transform)
         {
-            Debug.LogWarning("More than one instance(s) of Inventory found!");
+            Collider collide = child.GetComponent<BoxCollider>();
+            if (collide.gameObject != gameObject)
+            {
+                ColliderBridge cb = collide.gameObject.AddComponent<ColliderBridge>();
+                cb.Initialize(this);
+            }
+        }
+        // Collider Transfering
+
+        #region Singleton Method
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
             Destroy(gameObject);
-            return;
         }
 
         instance = this;
+        #endregion
     }
-    #endregion
-
-
+    
     [SerializeField] GameManager gManager;
     [SerializeField] string currentActiveScene = null;
     
@@ -47,7 +62,7 @@ public class Marker : MonoBehaviour
     }
 
 
-    private void OnTriggerStay(Collider other)
+    public void OnTriggerStay(Collider other)
     {
         if (other.tag != "House")
         {
@@ -61,7 +76,7 @@ public class Marker : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         if (other.tag != "House")
         {
@@ -69,5 +84,22 @@ public class Marker : MonoBehaviour
             isAccess = false;
             inTimer = 0;
         }
+    }
+}
+
+public class ColliderBridge : MonoBehaviour
+{
+    Marker _listener;
+    public void Initialize(Marker l)
+    {
+        _listener = l;
+    }
+    void OnTriggerStay(Collider collision)
+    {
+        _listener.OnTriggerStay(collision);
+    }
+    void OnTriggerExit(Collider other)
+    {
+        _listener.OnTriggerExit(other);
     }
 }

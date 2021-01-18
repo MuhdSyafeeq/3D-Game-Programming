@@ -25,8 +25,7 @@ public class GameManager : MonoBehaviour
     public void saveProgress(int sceneBuild)
     {
         Debug.Log($"Saving...");
-        
-        foreach(GameObject @object in objects)
+        foreach (GameObject @object in objects)
         {
             DontDestroyOnLoad(@object);
         }
