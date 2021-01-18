@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Wolf : MonoBehaviour
 {
-    [SerializeField] Animation wAnimation;
-
+    public static Wolf instance;
     enum State
     {
         Idle,
@@ -15,66 +15,154 @@ public class Wolf : MonoBehaviour
         Attack,
     }
 
-    [SerializeField] private State Wolve = State.Idle;
-    [SerializeField] private float Timer;
-    [SerializeField] private bool isChange = false;
+    // Wolf Animation
+    [SerializeField] Animation _animate;
+    private bool changeAnim = false;
 
-    private void Awake()
+    // Wolf Inventories / Food Requirements
+    [SerializeField] string currentLevels = null;
+    [SerializeField] List<Item> Hunger;
+
+    // Wolf State
+    [SerializeField] private State Wolve = State.Idle;
+    [SerializeField] private float Waiting_Time;
+
+    // Wolf Interaction
+    private bool isNearWolf = false, isFinished = false;
+    Item intItem;
+
+    bool AddItem(Item item)
     {
+        if(item.name != "Sandwich")
+        {
+            Debug.Log("That's Not What I Wanted");
+            return false;
+        }
+
+        Hunger.Add(item);
+        return true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            isNearWolf = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            isNearWolf = false;
+        }
+    }
+
+    void Awake()
+    {
+        #region Singleton Method
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        instance = this;
+        #endregion
+
         Wolve = State.Idle;
-        wAnimation.PlayQueued("idle", QueueMode.PlayNow);
-        Timer = 75f;
+        _animate.PlayQueued("idle", QueueMode.PlayNow);
+        Waiting_Time = 35f;
+
+        currentLevels = SceneManager.GetActiveScene().name;
+        if(currentLevels == "Milestone1")
+        {
+            Hunger = new List<Item>(3);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Timer <= 0)
+        if (Hunger.Count == 3)
+        {
+            isFinished = true;
+        }
+
+        if (Waiting_Time <= 0)
         {
             if (Wolve == State.Idle)
             {
                 Wolve = State.Walk;
-                Timer = 50f;
+                Waiting_Time = 50f;
 
-                isChange = true;
+                changeAnim = true;
             }
             else if (Wolve == State.Walk) //Create an Opening of Chase
             {
                 Wolve = State.Jump;
-                Timer = 2.03f;
+                Waiting_Time = 2.03f;
 
-                isChange = true;
+                changeAnim = true;
             }
             else if(Wolve == State.Jump)
             {
                 Wolve = State.Chase;
-                Timer = 75f;
+                Waiting_Time = 75f;
 
-                isChange = true;
+                changeAnim = true;
             }
         }
-        Timer -= Time.deltaTime;
+        Waiting_Time -= Time.deltaTime;
     }
 
-    private void LateUpdate()
+    void LateUpdate()
     {
-        if(Wolve == State.Walk && isChange == true)
+        if (isFinished)
         {
-            wAnimation.PlayQueued("walk", QueueMode.PlayNow);
-            Debug.Log(wAnimation.name);
-            isChange = false;
+            Debug.LogError("Game Ended");
         }
-        if (Wolve == State.Jump && isChange == true)
+
+        if (isNearWolf && Input.GetKeyDown(KeyCode.E))
         {
-            wAnimation.PlayQueued("jump", QueueMode.PlayNow);
-            Debug.Log(wAnimation.name);
-            isChange = false;
+            if (Inventory.instance.inventories.Count != 0)
+            {
+                for (int i = 0; i < Inventory.instance.inventories.Count; i++)
+                {
+                    intItem = Inventory.instance.inventories[i];
+                    AddItem(intItem);
+                    Inventory.instance.inventories.Remove(intItem);
+                }
+            }
+            else if (Inventory.instance.inventories.Count == 0)
+            {
+                Debug.Log("Wolf: -> Trying to give empty handed?");
+            }
         }
-        if (Wolve == State.Chase && isChange == true)
+
+
+        if (Wolve == State.Walk && changeAnim == true)
         {
-            wAnimation.PlayQueued("run", QueueMode.PlayNow);
-            Debug.Log(wAnimation.name);
-            isChange = false;
+            _animate.PlayQueued("walk", QueueMode.PlayNow);
+            Debug.Log(_animate.name);
+            changeAnim = false;
+        }
+        if (Wolve == State.Jump && changeAnim == true)
+        {
+            _animate.PlayQueued("jump", QueueMode.PlayNow);
+            Debug.Log(_animate.name);
+            changeAnim = false;
+        }
+        if (Wolve == State.Chase && changeAnim == true)
+        {
+            _animate.PlayQueued("run", QueueMode.PlayNow);
+            Debug.Log(_animate.name);
+            changeAnim = false;
         }
     }
 }

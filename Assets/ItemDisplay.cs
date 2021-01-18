@@ -20,5 +20,12 @@ public class ItemDisplay : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            foreach(Image @img in img)
+            {
+                @img.sprite = null;
+            }
+        }
     }
 }
