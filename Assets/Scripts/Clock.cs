@@ -38,7 +38,7 @@ public class Clock : MonoBehaviour
                                         hmsStarsExtinguish = new Vector3(03f, 30f, 0f);
     [SerializeField] private float starsFadeInTime = 7200f, starsFadeOutTime = 7200f;
 
-    private float intensity, rotation, prev_rotation = -1f, sunSet, sunRise, sunDayRatio,
+    public float intensity, rotation, prev_rotation = -1f, sunSet, sunRise, sunDayRatio,
                     fade, timeLight, timeExtinguish;
     private Color tintColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
     private Vector3 dir;

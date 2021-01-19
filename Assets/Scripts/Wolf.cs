@@ -6,6 +6,34 @@ using UnityEngine.SceneManagement;
 public class Wolf : MonoBehaviour
 {
     public static Wolf instance;
+    void Awake()
+    {
+        #region Singleton Method
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        instance = this;
+        #endregion
+
+        Wolve = State.Idle;
+        _animate.PlayQueued("idle", QueueMode.PlayNow);
+        Waiting_Time = 35f;
+
+        currentLevels = SceneManager.GetActiveScene().name;
+        if (currentLevels == "Milestone1")
+        {
+            Hunger = new List<Item>(3);
+            Debug.Log($"Wolf: -> Feed me with this {SceneManager.GetActiveScene().name}'s best Sandwiches.");
+        }
+    }
+
     enum State
     {
         Idle,
@@ -56,34 +84,6 @@ public class Wolf : MonoBehaviour
         if (other.tag == "Player")
         {
             isNearWolf = false;
-        }
-    }
-
-    void Awake()
-    {
-        #region Singleton Method
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        instance = this;
-        #endregion
-
-        Wolve = State.Idle;
-        _animate.PlayQueued("idle", QueueMode.PlayNow);
-        Waiting_Time = 35f;
-
-        currentLevels = SceneManager.GetActiveScene().name;
-        if(currentLevels == "Milestone1")
-        {
-            Hunger = new List<Item>(3);
-            Debug.Log($"Wolf: -> Feed me with this {SceneManager.GetActiveScene().name}'s best Sandwiches.");
         }
     }
 

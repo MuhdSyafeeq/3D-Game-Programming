@@ -6,7 +6,15 @@ public class ItemPickup : MonoBehaviour
     [SerializeField] int rotationSpeed = 90;
     [SerializeField] bool isAquiring = false;
     [SerializeField] GameObject theObject;
-    float maxUp = 0.5f, maxDown = -0.5f;
+    float maxUp = 0.5f, Step = 0f, Offset;
+    Transform keepData;
+
+    private void Awake()
+    {
+        keepData = this.transform;
+        Offset = transform.position.y + maxUp;
+    }
+
 
     void Update()
     {
@@ -25,22 +33,16 @@ public class ItemPickup : MonoBehaviour
             this.transform.rotation.z
             );
 
-        if(this.transform.position.y != this.transform.position.y + maxUp)
-        {
-            transform.position = new Vector3(
+        Step += 0.01f;
+        //Make sure Steps value never gets too out of hand 
+        if (Step > 999999) { Step = 1; }
+        //Float up and down along the y axis,
+        
+        this.transform.position = new Vector3(
             this.transform.position.x,
-            this.transform.position.y + (maxUp * Time.deltaTime),
+            Mathf.Sin(Step) + Offset,
             this.transform.position.z
-            );
-        }
-        else
-        {
-            transform.position = new Vector3(
-            this.transform.position.x,
-            this.transform.position.y + (maxDown * Time.deltaTime),
-            this.transform.position.z
-            );
-        }
+        );
         
     }
 
