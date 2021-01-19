@@ -3,9 +3,10 @@
 public class ItemPickup : MonoBehaviour
 {
     [SerializeField] Item item;
-    [SerializeField] int rotationSpeed = 5;
+    [SerializeField] int rotationSpeed = 90;
     [SerializeField] bool isAquiring = false;
     [SerializeField] GameObject theObject;
+    float maxUp = 0.5f, maxDown = -0.5f;
 
     void Update()
     {
@@ -23,6 +24,24 @@ public class ItemPickup : MonoBehaviour
             rotationSpeed * Time.deltaTime,
             this.transform.rotation.z
             );
+
+        if(this.transform.position.y != this.transform.position.y + maxUp)
+        {
+            transform.position = new Vector3(
+            this.transform.position.x,
+            this.transform.position.y + (maxUp * Time.deltaTime),
+            this.transform.position.z
+            );
+        }
+        else
+        {
+            transform.position = new Vector3(
+            this.transform.position.x,
+            this.transform.position.y + (maxDown * Time.deltaTime),
+            this.transform.position.z
+            );
+        }
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -38,6 +57,14 @@ public class ItemPickup : MonoBehaviour
         if (other.tag == "Player")
         {
             isAquiring = false;
+        }
+    }
+
+    void LateUpdate()
+    {
+        if(theObject == null)
+        {
+            theObject = this.gameObject;
         }
     }
 }

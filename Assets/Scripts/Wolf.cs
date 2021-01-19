@@ -83,6 +83,7 @@ public class Wolf : MonoBehaviour
         if(currentLevels == "Milestone1")
         {
             Hunger = new List<Item>(3);
+            Debug.Log($"Wolf: -> Feed me with this {SceneManager.GetActiveScene().name}'s best Sandwiches.");
         }
     }
 
@@ -125,6 +126,7 @@ public class Wolf : MonoBehaviour
     {
         if (isFinished)
         {
+            Debug.Log($"Wolf: -> Thank you, I will rest now.. Enjoy the {SceneManager.GetActiveScene().name}'s Village.");
             Debug.LogError("Game Ended");
         }
 
@@ -141,7 +143,7 @@ public class Wolf : MonoBehaviour
             }
             else if (Inventory.instance.inventories.Count == 0)
             {
-                Debug.Log("Wolf: -> Trying to give empty handed?");
+                Debug.Log("Wolf: -> Trying to give me empty handed?");
             }
         }
 
