@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,6 +28,8 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] private float SmoothFactor      = 0.125f; //0.5f;
     [SerializeField] private float RotationSpeed     = 5.0f;
 
+    [SerializeField] CinemachineFreeLook myScripts;
+
     private Quaternion canTurnAngle, turnUpAngle;
 
     void Start()
@@ -42,28 +45,14 @@ public class PlayerCamera : MonoBehaviour
 
         transform.LookAt(Player.transform);
 
-        /*
-        canTurnAngle = Quaternion.AngleAxis(
-            Input.GetAxis("Mouse X") * RotationSpeed,
-            Vector3.up
-            );
 
-        turnUpAngle = Quaternion.AngleAxis(
-            Input.GetAxis("Mouse Y") * RotationSpeed,
-            Vector3.forward
-            );
-
-        cameraOffset_ = (turnUpAngle * canTurnAngle) * cameraOffset_;
-
-        Vector3 newPos = Player.position + cameraOffset_;
-
-        transform.position = Vector3.Slerp(
-            transform.position,
-            newPos,
-            SmoothFactor
-            );
-
-        transform.LookAt(Player.transform);
-        */
+        if(Input.GetKeyDown(key: KeyCode.LeftAlt))
+        {
+            myScripts.enabled = false;
+        }
+        if (Input.GetKeyUp(key: KeyCode.LeftAlt))
+        {
+            myScripts.enabled = true;
+        }
     }
 }

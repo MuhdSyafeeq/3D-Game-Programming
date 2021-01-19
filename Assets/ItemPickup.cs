@@ -2,7 +2,7 @@
 
 public class ItemPickup : MonoBehaviour
 {
-    [SerializeField] Item item;
+    [SerializeField] public Item item;
     [SerializeField] int rotationSpeed = 90;
     [SerializeField] bool isAquiring = false;
     [SerializeField] GameObject theObject;

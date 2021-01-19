@@ -56,7 +56,7 @@ public class Wolf : MonoBehaviour
     [SerializeField] private float Waiting_Time;
 
     // Wolf Interaction
-    private bool isNearWolf = false, isFinished = false;
+    private bool isNearWolf = false, isFinished = false, itemAccept = false;
     Item intItem;
 
     bool AddItem(Item item)
@@ -137,8 +137,8 @@ public class Wolf : MonoBehaviour
                 for (int i = 0; i < Inventory.instance.inventories.Count; i++)
                 {
                     intItem = Inventory.instance.inventories[i];
-                    AddItem(intItem);
-                    Inventory.instance.inventories.Remove(intItem);
+                    itemAccept = AddItem(intItem);
+                    if (itemAccept) { Inventory.instance.inventories.Remove(intItem); }
                 }
             }
             else if (Inventory.instance.inventories.Count == 0)

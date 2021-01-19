@@ -4,6 +4,8 @@
 public class Item : ScriptableObject
 {
     new public string name = "New Item";
-    public Sprite icon = null;
-    public bool isIngredient = false;
+
+    [SerializeField] public GameObject itemObj;
+    [SerializeField] public Sprite icon = null;
+    [SerializeField] public bool isIngredient = false;
 }

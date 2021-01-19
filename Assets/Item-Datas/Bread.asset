@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Bread
   m_EditorClassIdentifier: 
   name: Bread
+  itemObj: {fileID: 6526889450285020778, guid: 288594ad96bd9f34d9a77d0923660e7f, type: 3}
   icon: {fileID: 0}
   isIngredient: 1

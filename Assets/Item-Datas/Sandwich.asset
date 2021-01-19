@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db046fe4a4ade62458babb13d81888b6, type: 3}
-  m_Name: Test-Item
+  m_Name: Sandwich
   m_EditorClassIdentifier: 
   name: Sandwich
+  itemObj: {fileID: 100006, guid: e21bfea69265541d1903c3c13f943471, type: 3}
   icon: {fileID: 21300000, guid: a876107ec8cc209418f9ef005aa72e78, type: 3}
   isIngredient: 0
