@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sandwich
   m_EditorClassIdentifier: 
   name: Sandwich
-  itemObj: {fileID: 100006, guid: e21bfea69265541d1903c3c13f943471, type: 3}
+  itemObj: {fileID: 1497431664766396, guid: 8ba0ff2adae60496aac6d2b5df996d23, type: 3}
   icon: {fileID: 21300000, guid: a876107ec8cc209418f9ef005aa72e78, type: 3}
   isIngredient: 0

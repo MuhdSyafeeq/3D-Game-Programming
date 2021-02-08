@@ -39,6 +39,7 @@ public class Marker : MonoBehaviour
     
     [SerializeField] private float inTimer;
     [SerializeField] private bool isAccess = false, isEntered = false;
+    [SerializeField] private Transform player_;
 
     private void LateUpdate()
     {
@@ -49,6 +50,7 @@ public class Marker : MonoBehaviour
             isEntered = true;
             isAccess = false;
             inTimer = 0;
+            player_.position += player_.forward;
 
             if(currentActiveScene == "Milestone1")
             {

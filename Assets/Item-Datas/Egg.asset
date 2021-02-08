@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Egg
   m_EditorClassIdentifier: 
   name: Egg
+  itemObj: {fileID: 7930035938316455873, guid: ffaf6426d1eceb9479f07f2d40c53703, type: 3}
   icon: {fileID: 0}
   isIngredient: 1
