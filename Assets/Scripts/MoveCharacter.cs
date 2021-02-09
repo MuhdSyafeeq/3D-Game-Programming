@@ -24,7 +24,7 @@ public class MoveCharacter : MonoBehaviour
     [SerializeField] Transform cam;
     [SerializeField] float gravity = -9.87f;
     [SerializeField] float speed = 6f;
-    [SerializeField] float jumpHeight = 3f;
+    [SerializeField] float jumpHeight = 2f;
 
     [SerializeField] float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
@@ -35,6 +35,9 @@ public class MoveCharacter : MonoBehaviour
 
     [SerializeField] private Vector3 velocity;
     [SerializeField] bool isGrounded;
+
+    [SerializeField] Animator anime;
+    private float inputH = 0.0f, inputV = 0.0f;
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -52,9 +55,13 @@ public class MoveCharacter : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
         if (isGrounded && velocity.y < 0) velocity.y = -2f;
 
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+        inputH = Input.GetAxisRaw("Horizontal");
+        inputV = Input.GetAxisRaw("Vertical");
+        Vector3 direction = new Vector3(inputH, 0f, inputV).normalized;
+
+        anime.SetFloat("inputH", Mathf.Abs(inputH));
+        anime.SetFloat("inputV", Mathf.Abs(inputV));
+        
 
         if (direction.magnitude >= 0.1f)
         {
@@ -66,7 +73,11 @@ public class MoveCharacter : MonoBehaviour
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded) velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            anime.Play("Jump", -1, 0f);
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }

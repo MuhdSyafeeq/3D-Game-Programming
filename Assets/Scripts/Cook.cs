@@ -5,10 +5,15 @@ using UnityEngine.UI;
 
 public class Cook : MonoBehaviour
 {
+    // Item Checking
     Item currentIngredients;
     [SerializeField] int hotbar;
     [SerializeField] Image[] player_Htkey;
+
+    // For Item to be Stored into another Inventories
     [SerializeField] List<Item> itemCook = new List<Item>();
+
+    // Check if Near the Plate
     [SerializeField] bool isNearPlate = false;
 
     public void getSituation(bool situation)
@@ -71,7 +76,7 @@ public class Cook : MonoBehaviour
             {
                 if (Inventory.instance.inventories[hotbar - 1] != null)
                 {
-                    Debug.Log($"System: -> Item: ({Inventory.instance.inventories[hotbar - 1].name}) dropped.");
+                    Debug.Log($"System: -> Cooking: ({Inventory.instance.inventories[hotbar - 1].name}) added.");
                     currentIngredients = Inventory.instance.inventories[hotbar - 1];
 
                     bool acceptIngredientsOnly = AddIngredients(currentIngredients);
@@ -81,7 +86,7 @@ public class Cook : MonoBehaviour
                     }
 
                 }
-                else { Debug.Log("I have nothing to drop on this slot..."); }
+                else { Debug.Log("I have nothing to add on this slot."); }
             }
         }
     }
