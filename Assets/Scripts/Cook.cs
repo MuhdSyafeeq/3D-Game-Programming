@@ -8,13 +8,16 @@ public class Cook : MonoBehaviour
     // Item Checking
     Item currentIngredients;
     [SerializeField] int hotbar;
-    [SerializeField] Image[] player_Htkey;
 
     // For Item to be Stored into another Inventories
     [SerializeField] List<Item> itemCook = new List<Item>();
 
     // Check if Near the Plate
     [SerializeField] bool isNearPlate = false;
+
+    // Ui Placement
+    [SerializeField] Image[] itemArr;
+    [SerializeField] Image viewTimer;
 
     public void getSituation(bool situation)
     {
@@ -23,10 +26,14 @@ public class Cook : MonoBehaviour
 
     bool AddIngredients(Item item)
     {
-        if (!item.isIngredient) { return false; }
+        if(itemCook.Capacity != 5)
+        {
+            if (!item.isIngredient) { return false; }
 
-        itemCook.Add(item);
-        return true;
+            itemCook.Add(item);
+            return true;
+        }
+        else { return false; }
     }
 
     void OnTriggerEnter(Collider other)
@@ -45,10 +52,52 @@ public class Cook : MonoBehaviour
         }
     }
 
+    private bool inBounds(int index, List<Item> array)
+    {
+        return (index >= 0) && (index < array.Count);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         //PlayerCamera.instance.GetComponent<Canvas>().GetComponent<GameObject>().GetComponent<ItemDisplay>().getHotkeys(player_Htkey);
+    }
+
+    private void LateUpdate()
+    {
+        if(Inventory.instance.inventories.Count != 0)
+        {
+            for(int i = 0; i < 5; i++)
+            {
+                if(inBounds(i, itemCook))
+                {
+                    itemArr[i].sprite = itemCook[i].icon;
+                    itemArr[i].color = new Color(255, 255, 255, 255);
+                }
+                else
+                {
+                    itemArr[i].sprite = null;
+                    itemArr[i].color = new Color(255, 255, 255, 0);
+                }
+            }
+        }
+
+        if(viewTimer.fillAmount != 0)
+        {
+            viewTimer.fillAmount -= (float)(Time.deltaTime / 10);
+        }
+        else if(viewTimer.fillAmount == 0 && Inventory.instance.inventories.Count != 0)
+        {
+            for(int i = 0; i < itemCook.Count; i++)
+            {
+                if(itemCook[i] != null)
+                {
+                    Item current_ = itemCook[i];
+                    Inventory.instance.inventories.Add(current_);
+                    itemCook.Remove(current_);
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -82,6 +131,7 @@ public class Cook : MonoBehaviour
                     bool acceptIngredientsOnly = AddIngredients(currentIngredients);
                     if (acceptIngredientsOnly)
                     {
+                        viewTimer.fillAmount = 1;
                         Inventory.instance.inventories.Remove(currentIngredients);
                     }
 

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Sandwich
   itemObj: {fileID: 1497431664766396, guid: 8ba0ff2adae60496aac6d2b5df996d23, type: 3}
-  icon: {fileID: 21300000, guid: a876107ec8cc209418f9ef005aa72e78, type: 3}
+  icon: {fileID: 21300000, guid: c0ccd69cc99e4024ebc802cc445eecf7, type: 3}
   isIngredient: 0
