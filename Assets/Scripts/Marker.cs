@@ -50,7 +50,7 @@ public class Marker : MonoBehaviour
             isEntered = true;
             isAccess = false;
             inTimer = 0;
-            player_.position += player_.forward;
+            player_.position += (player_.forward*5);
 
             if(currentActiveScene == "Milestone1")
             {
