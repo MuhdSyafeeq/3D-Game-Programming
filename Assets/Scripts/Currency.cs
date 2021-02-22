@@ -1,32 +1,55 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Currency : MonoBehaviour
 {
-    [SerializeField] int initialCoin;
-    [SerializeField] Text coinText;
-    public static int currentCoin;
-    
+    Slider coinBar;
+    [SerializeField] int InitialMoney = 0;
+    [SerializeField] Text currentMoney;
+    [SerializeField] const int maxMoney = 1000;
+
     // Start is called before the first frame update
     void Start()
     {
-        currentCoin = initialCoin;
+        coinBar = GetComponent<Slider>();
+        coinBar.maxValue = maxMoney;
+        coinBar.value = InitialMoney;
     }
 
     private void Update()
     {
-        coinText.text = currentCoin.ToString();
+        currentMoney.text = coinBar.value.ToString();
     }
 
-    public void AddCoin(int coin)
+    public void setHealth(int amount)
     {
-        currentCoin += coin;
+        coinBar.value = amount;
     }
 
-    public void UseCoin(int coin)
+    public void addCoin(int amount)
     {
-        currentCoin -= coin;
+        coinBar.value += amount;
+    }
+
+    public void useCoin(int amount)
+    {
+        coinBar.value -= amount;
+    }
+
+    public int checkBalance()
+    {
+        return (int)coinBar.value;
+    }
+
+    public bool checkCoins()
+    {
+        if (coinBar.value > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

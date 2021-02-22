@@ -8,4 +8,7 @@ public class Item : ScriptableObject
     [SerializeField] public GameObject itemObj;
     [SerializeField] public Sprite icon = null;
     [SerializeField] public bool isIngredient = false;
+
+    [SerializeField] public float buyPrice = 0;
+    [SerializeField] public float sellPrice = 0;
 }

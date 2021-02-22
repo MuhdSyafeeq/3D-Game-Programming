@@ -6,18 +6,24 @@ using UnityEngine.UI;
 public class Shop : MonoBehaviour
 {
     [SerializeField] Canvas ShopUI;
-    [SerializeField] Image ConfirmPurchase;
-    [SerializeField] Image InsufficientCoinWarning;
-    Currency playerCurrency;
+    [SerializeField] GameObject ConfirmPurchase;
+    [SerializeField] GameObject InsufficientCoinWarning;
+    [SerializeField] List<Item> ShopList = new List<Item>();
+    [SerializeField] private int itemArrNum = -1;
+    [SerializeField] Currency playerCurrency;
 
     string itemPurchase;
     int coinRequired;
     bool isShop = false;
 
+    public void setItemNum(int num)
+    {
+        itemArrNum = num;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        playerCurrency = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Currency>();
     }
 
     // Update is called once per frame
@@ -31,32 +37,36 @@ public class Shop : MonoBehaviour
 
     public void ClickPurchase()
     {
-        itemPurchase = transform.GetChild(1).GetComponent<Text>().text.ToString();
-        coinRequired = int.Parse(transform.GetChild(3).GetComponent<Text>().text.ToString());
+        //itemPurchase = transform.GetChild(1).GetComponent<Text>().text.ToString();
+        //coinRequired = int.Parse(transform.GetChild(3).GetComponent<Text>().text.ToString());
 
-        ConfirmPurchase.enabled = true;
-        ConfirmPurchase.GetComponentInChildren<Text>().text = "Purchasing " + itemPurchase + "?";
+        ConfirmPurchase.SetActive(true);
+        //ConfirmPurchase.GetComponentInChildren<Text>().text = "Purchasing " + ShopList[itemArrNum].name + "?"; //itemPurchase
     }
 
-    public void Confirmation()
+    public void Confirmation(string @context)
     {
-        if (this.name == "YesBtn")
+        playerCurrency = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Currency>();
+        if (@context == "Yes")
         {
-            if (Currency.currentCoin >= coinRequired)
+            coinRequired = (int)ShopList[itemArrNum].buyPrice;
+            if (playerCurrency.checkBalance() >= coinRequired)
             {
-                playerCurrency.UseCoin(coinRequired);
+                playerCurrency.useCoin(coinRequired);
                 Debug.Log("Add " + itemPurchase + " to inventory");
+                Item shopItem = ShopList[itemArrNum];
+                Inventory.instance.Add(shopItem);
             }
             else
             {
-                InsufficientCoinWarning.enabled = true;
+                InsufficientCoinWarning.SetActive(true);
             }
                 
         }
         else
         {
-            ConfirmPurchase.enabled = false;
-            InsufficientCoinWarning.enabled = false;
+            ConfirmPurchase.SetActive(false);
+            InsufficientCoinWarning.SetActive(false);
         }
     }
 
