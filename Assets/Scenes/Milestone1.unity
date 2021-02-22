@@ -3322,8 +3322,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519140347}
-  m_LocalRotation: {x: 0.21392748, y: 0.0000000066788317, z: -0.0000000048764335,
-    w: 0.97684956}
+  m_LocalRotation: {x: 0.21392748, y: 0.000000006678828, z: -0.0000000048764335, w: 0.97684956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -10155,7 +10154,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901654361}
-  m_LocalRotation: {x: 0.24927029, y: 0.00000007932486, z: -0.000000013553807, w: 0.96843404}
+  m_LocalRotation: {x: 0.24927029, y: -0.000000017670878, z: -0.0000000023156401,
+    w: 0.96843404}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12964,7 +12964,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481118105}
-  m_LocalRotation: {x: 0.16559026, y: 0.000000032638766, z: -0.0000000054803184, w: 0.9861947}
+  m_LocalRotation: {x: 0.16559026, y: -0.000000032638766, z: 0.0000000054803184, w: 0.9861947}
   m_LocalPosition: {x: 0, y: 54.38046, z: 45.12536}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -19579,7 +19579,9 @@ MonoBehaviour:
     m_Bits: 256
   velocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
+  currentStamina: {fileID: 2005632879}
   anime: {fileID: 934700122}
+  KeepLoop: 0
 --- !u!143 &1906563876
 CharacterController:
   m_ObjectHideFlags: 0
@@ -24947,6 +24949,7 @@ GameObject:
   - component: {fileID: 2005632876}
   - component: {fileID: 2005632878}
   - component: {fileID: 2005632877}
+  - component: {fileID: 2005632879}
   m_Layer: 0
   m_Name: Stamina-Slider
   m_TagString: Untagged
@@ -25033,6 +25036,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005632875}
   m_CullTransparentMesh: 0
+--- !u!114 &2005632879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2005632875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e893c452009bddb44863148836b4bfd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2027113277
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25750,7 +25765,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096344578}
-  m_LocalRotation: {x: 0.23161374, y: 0.00000007955829, z: -0.000000012108687, w: 0.9728079}
+  m_LocalRotation: {x: 0.23161374, y: -0.000000017625833, z: -0.0000000026366793,
+    w: 0.9728079}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

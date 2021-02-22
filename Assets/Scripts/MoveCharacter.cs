@@ -36,7 +36,9 @@ public class MoveCharacter : MonoBehaviour
     [SerializeField] private Vector3 velocity;
     [SerializeField] bool isGrounded;
 
+    [SerializeField] Stamina currentStamina;
     [SerializeField] Animator anime;
+    [SerializeField] bool KeepLoop = false;
     private float inputH = 0.0f, inputV = 0.0f;
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -58,6 +60,20 @@ public class MoveCharacter : MonoBehaviour
         inputH = Input.GetAxisRaw("Horizontal");
         inputV = Input.GetAxisRaw("Vertical");
         Vector3 direction = new Vector3(inputH, 0f, inputV).normalized;
+
+        if (KeepLoop && currentStamina.checkStamina())
+        {
+            currentStamina.reduceStamina((float)(Time.deltaTime * 0.5));
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+            controller.Move(moveDir.normalized * (speed * 2) * Time.deltaTime);
+        }
+        else { KeepLoop = false; anime.SetBool("KeepDash", false); currentStamina.addStamina(Time.deltaTime); }
+
+
 
         anime.SetFloat("inputH", Mathf.Abs(inputH));
         anime.SetFloat("inputV", Mathf.Abs(inputV));
@@ -81,14 +97,18 @@ public class MoveCharacter : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
         {
+            KeepLoop = true;
             anime.Play("Dash", -1, 0f);
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * (speed * 2) * Time.deltaTime);
+            anime.SetBool("KeepDash", true);
         }
+
+        if(Input.GetKey(KeyCode.LeftShift) == false && isGrounded)
+        {
+            KeepLoop = false;
+            anime.SetBool("KeepDash", false);
+        }
+
+        
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
