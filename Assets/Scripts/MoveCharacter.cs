@@ -107,7 +107,6 @@ public class MoveCharacter : MonoBehaviour
             KeepLoop = false;
             anime.SetBool("KeepDash", false);
         }
-
         
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
