@@ -41,6 +41,8 @@ public class MoveCharacter : MonoBehaviour
     [SerializeField] bool KeepLoop = false;
     private float inputH = 0.0f, inputV = 0.0f;
 
+    public bool isAttack = false;
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var body = hit.collider.GetComponent<Rigidbody>();
@@ -106,6 +108,16 @@ public class MoveCharacter : MonoBehaviour
         {
             KeepLoop = false;
             anime.SetBool("KeepDash", false);
+        }
+
+        if (Input.GetMouseButton(0))
+        {
+            //attack animation
+            isAttack = true;
+        }
+        else
+        {
+            isAttack = false;
         }
         
         velocity.y += gravity * Time.deltaTime;
