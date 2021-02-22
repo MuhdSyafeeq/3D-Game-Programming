@@ -42,6 +42,8 @@ public class MoveCharacter : MonoBehaviour
     private float inputH = 0.0f, inputV = 0.0f;
 
     public bool isAttack = false;
+    bool isAttacking = false;
+    int attackNum;
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -110,10 +112,20 @@ public class MoveCharacter : MonoBehaviour
             anime.SetBool("KeepDash", false);
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            //attack animation
-            isAttack = true;
+            if (!isAttacking)
+            {
+                isAttacking = true;
+                attackNum++;
+
+                if (attackNum % 2 == 0)
+                    anime.Play("AttackA");
+                else
+                    anime.Play("AttackB");
+                isAttack = true;
+                Invoke("SetAttackAvailable", 1);
+            }            
         }
         else
         {
@@ -122,5 +134,9 @@ public class MoveCharacter : MonoBehaviour
         
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    void SetAttackAvailable() {
+        isAttacking = false;
     }
 }

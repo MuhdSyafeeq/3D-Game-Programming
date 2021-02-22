@@ -10,11 +10,14 @@ public class FightingBehaviour : MonoBehaviour
 
     [SerializeField] int health;
     [SerializeField] int damage;
+    [SerializeField] Animator animator;
+    bool currentAnimating = false;
+    bool isAttacking = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator.speed = 0.5f;
     }
 
     // Update is called once per frame
@@ -22,7 +25,17 @@ public class FightingBehaviour : MonoBehaviour
     {
         if (canAttack)
         {
-            LaunchAttack();
+            if (!currentAnimating)
+            {
+                animator.Play("Taunt");
+                currentAnimating = true;
+            }
+                
+            if (!isAttacking)
+            {
+                Invoke("LaunchAttack", 3);
+                isAttacking = true;
+            }                
 
             if (player.isAttack)
                 ReceivedDamage();
@@ -30,25 +43,34 @@ public class FightingBehaviour : MonoBehaviour
 
         if (health == 0)
         {
-            Destroy(this.gameObject);
+            animator.Play("Death");
+            Destroy(this.gameObject, 2);
         }
     }
 
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.tag == "Player")
+        {
             canAttack = true;
+            transform.LookAt(collider.transform.position);
+        }
     }
 
     private void OnTriggerExit(Collider collider)
     {
         if (collider.tag == "Player")
+        {
             canAttack = false;
+            currentAnimating = false;
+            animator.Play("Idle");
+        } 
     }
 
     void ReceivedDamage()
     {
         health -= 2;
+        animator.Play("Receive-Hit");
         Debug.Log("Mushroom received damage");
     }
 
@@ -56,5 +78,6 @@ public class FightingBehaviour : MonoBehaviour
     {
         playerHealth.reduceHealth(damage);
         Debug.Log("Mushroom attacking");
+        isAttacking = false;
     }
 }
