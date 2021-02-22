@@ -39,6 +39,7 @@ public class ItemDisplay : MonoBehaviour
                         Item currentItem = Inventory.instance.inventories[Hotkey - 1];
 
                         var theObj = Instantiate(currentItem.itemObj, _Player.position, Quaternion.identity);
+                        if(currentItem.name == "Mushroom") { theObj.transform.localScale = new Vector3(5, 5, 5); }
                         theObj.AddComponent<ItemPickup>();
                         theObj.GetComponent<ItemPickup>().item = Inventory.instance.inventories[Hotkey - 1];
                         theObj.AddComponent<SphereCollider>();

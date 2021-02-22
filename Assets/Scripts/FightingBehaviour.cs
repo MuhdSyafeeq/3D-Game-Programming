@@ -11,6 +11,7 @@ public class FightingBehaviour : MonoBehaviour
     [SerializeField] int health;
     [SerializeField] int damage;
     [SerializeField] Animator animator;
+    [SerializeField] Item Items;
     bool currentAnimating = false;
     bool isAttacking = false;
 
@@ -44,7 +45,8 @@ public class FightingBehaviour : MonoBehaviour
         if (health == 0)
         {
             animator.Play("Death");
-            Destroy(this.gameObject, 2);
+            Invoke("dropItem", 2f);
+            Destroy(this.gameObject, 2f);
         }
     }
 
@@ -77,5 +79,24 @@ public class FightingBehaviour : MonoBehaviour
     {
         playerHealth.reduceHealth(damage);
         isAttacking = false;
+    }
+
+    void dropItem()
+    {
+        var _Items = Instantiate(
+            Items.itemObj,
+            new Vector3(
+                this.transform.position.x,
+                this.transform.position.y + 0.75f,
+                this.transform.position.z
+            ),
+            Quaternion.identity
+        );
+        _Items.transform.localScale = new Vector3(5, 5, 5);
+        _Items.AddComponent<ItemPickup>();
+        _Items.GetComponent<ItemPickup>().item = Items;
+        _Items.AddComponent<SphereCollider>();
+        _Items.GetComponent<SphereCollider>().radius = 1.5f;
+        _Items.GetComponent<SphereCollider>().isTrigger = true;
     }
 }
