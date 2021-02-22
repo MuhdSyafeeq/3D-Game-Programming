@@ -71,13 +71,11 @@ public class FightingBehaviour : MonoBehaviour
     {
         health -= 2;
         animator.Play("Receive-Hit");
-        Debug.Log("Mushroom received damage");
     }
 
     void LaunchAttack()
     {
         playerHealth.reduceHealth(damage);
-        Debug.Log("Mushroom attacking");
         isAttacking = false;
     }
 }
