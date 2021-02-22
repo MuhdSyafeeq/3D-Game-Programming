@@ -11,6 +11,7 @@ public class Cook : MonoBehaviour
 
     // For Item to be Stored into another Inventories
     [SerializeField] List<Item> itemCook = new List<Item>();
+    [SerializeField] List<Item> recipe = new List<Item>();
 
     // Check if Near the Plate
     [SerializeField] bool isNearPlate = false;
@@ -60,7 +61,7 @@ public class Cook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //PlayerCamera.instance.GetComponent<Canvas>().GetComponent<GameObject>().GetComponent<ItemDisplay>().getHotkeys(player_Htkey);
+        //recipe = ;  
     }
 
     private void LateUpdate()
@@ -104,7 +105,7 @@ public class Cook : MonoBehaviour
     void Update()
     {
         hotbar = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<ItemDisplay>().getHotkey();
-        if (isNearPlate && Input.GetMouseButtonDown(0))
+        if (isNearPlate && Input.GetKey(KeyCode.E))
         {
             if (Inventory.instance.inventories.Count != 0)
             {
@@ -113,6 +114,20 @@ public class Cook : MonoBehaviour
             else if (Inventory.instance.inventories.Count == 0)
             {
                 Debug.Log($"I need to find ingredients before cooking...");
+            }
+        }
+
+        if(isNearPlate && Input.GetMouseButton(1))
+        {
+            for (int i = 0; i < itemCook.Count; i++)
+            {
+                if (itemCook[i] != null)
+                {
+                    Item current_ = itemCook[i];
+                    Inventory.instance.inventories.Add(current_);
+                    itemCook.Remove(current_);
+                }
+                else { Debug.Log($"I need to find ingredients before cooking..."); break; }
             }
         }
     }
