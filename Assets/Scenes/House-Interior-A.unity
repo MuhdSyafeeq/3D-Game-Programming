@@ -4828,6 +4828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hotbar: 0
   itemCook: []
+  recipe: {fileID: 11400000, guid: fcca5282f7aa8ac47bd0b55236871098, type: 2}
   isNearPlate: 0
   itemArr:
   - {fileID: 638853798}

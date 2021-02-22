@@ -8,10 +8,11 @@ public class Cook : MonoBehaviour
     // Item Checking
     Item currentIngredients;
     [SerializeField] int hotbar;
+    int sameIngre = 0;
 
     // For Item to be Stored into another Inventories
     [SerializeField] List<Item> itemCook = new List<Item>();
-    [SerializeField] List<Item> recipe = new List<Item>();
+    [SerializeField] Recipe recipe;
 
     // Check if Near the Plate
     [SerializeField] bool isNearPlate = false;
@@ -61,7 +62,7 @@ public class Cook : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //recipe = ;  
+        //recipe = [];  
     }
 
     private void LateUpdate()
@@ -96,6 +97,7 @@ public class Cook : MonoBehaviour
                     Item current_ = itemCook[i];
                     Inventory.instance.inventories.Add(current_);
                     itemCook.Remove(current_);
+                    sameIngre = 0;
                 }
             }
         }
@@ -123,11 +125,33 @@ public class Cook : MonoBehaviour
             {
                 if (itemCook[i] != null)
                 {
-                    Item current_ = itemCook[i];
-                    Inventory.instance.inventories.Add(current_);
-                    itemCook.Remove(current_);
+                    for(int j = 0; j < recipe.itemObj.Length; j++)
+                    {
+                        if(itemCook[i] == recipe.itemObj[j])
+                        {
+                            sameIngre += 1;
+                            break;
+                        }
+                    }
                 }
                 else { Debug.Log($"I need to find ingredients before cooking..."); break; }
+            } 
+
+            if(sameIngre == recipe.itemObj.Length)
+            {
+                sameIngre = 0;
+                Debug.Log("Finished Combine!");
+                Item combinedItem = recipe.FinalProduct;
+                Inventory.instance.inventories.Add(combinedItem);
+                for(int i = 0; i < itemCook.Count; i++)
+                {
+                    if (itemCook[i] != null)
+                    {
+                        Item current_ = itemCook[i];
+                        itemCook.Remove(current_);
+                    }
+                }
+
             }
         }
     }
