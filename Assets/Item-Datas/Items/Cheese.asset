@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db046fe4a4ade62458babb13d81888b6, type: 3}
-  m_Name: Sandwich
+  m_Name: Cheese
   m_EditorClassIdentifier: 
-  name: Sandwich
-  itemObj: {fileID: 1497431664766396, guid: 8ba0ff2adae60496aac6d2b5df996d23, type: 3}
-  icon: {fileID: 21300000, guid: c0ccd69cc99e4024ebc802cc445eecf7, type: 3}
-  isIngredient: 0
-  buyPrice: 90
-  sellPrice: 45
+  name: Cheese
+  itemObj: {fileID: -927199367670048503, guid: fa12251cbd260e24486d6e7e9cdf3ceb, type: 3}
+  icon: {fileID: 21300000, guid: c6abedf2cfdc29041bc2463725b60189, type: 3}
+  isIngredient: 1
+  buyPrice: 30
+  sellPrice: 15

@@ -16,3 +16,5 @@ MonoBehaviour:
   itemObj: {fileID: 8090186177243623422, guid: bd7831e15fd313141b3adeb6d5799878, type: 3}
   icon: {fileID: 21300000, guid: ce213a6f42e132342bd5fd9fe64dc7cc, type: 3}
   isIngredient: 0
+  buyPrice: 100
+  sellPrice: 50

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77d9813e4d1bff409e4c2c143dad70a, type: 3}
+  m_Name: Recipe-Meat-Mushroom-Sandwich
+  m_EditorClassIdentifier: 
+  name: Recipe Meat Mushroom Sandwich
+  itemObj:
+  - {fileID: 11400000, guid: 1ccb4578fdc09ea469817b9520e08809, type: 2}
+  - {fileID: 11400000, guid: 9d11d7e9ec090bc4ab4d6f01cb228aa3, type: 2}
+  - {fileID: 11400000, guid: 9d11d7e9ec090bc4ab4d6f01cb228aa3, type: 2}
+  - {fileID: 11400000, guid: 6c3993bd4a512a14ba6f6735e60bd88c, type: 2}
+  FinalProduct: {fileID: 11400000, guid: eb7fcbde95c8f124e9525d4c2d19a418, type: 2}
+  icon: {fileID: 21300000, guid: c9801f084f1c2d54c8361f6eff2c21f8, type: 3}

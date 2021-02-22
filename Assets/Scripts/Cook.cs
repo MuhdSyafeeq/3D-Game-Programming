@@ -13,6 +13,7 @@ public class Cook : MonoBehaviour
     // For Item to be Stored into another Inventories
     [SerializeField] List<Item> itemCook = new List<Item>();
     [SerializeField] Recipe recipe;
+    [SerializeField] List<Recipe> cookRecipe = new List<Recipe>();
 
     // Check if Near the Plate
     [SerializeField] bool isNearPlate = false;
