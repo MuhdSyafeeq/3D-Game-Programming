@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MoveCharacter : MonoBehaviour
@@ -10,11 +11,14 @@ public class MoveCharacter : MonoBehaviour
     {
         if (instance == null)
         {
+            Debug.Log("SPAWNED");
             instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
-        else
+        else if(instance != null)
         {
+            Debug.Log("DESTROYED");
+            gameObject.tag = "Untagged";
             Destroy(gameObject);
         }
     }
@@ -48,6 +52,28 @@ public class MoveCharacter : MonoBehaviour
     [Header("Menu Canvas Settings")]
     [SerializeField] public static bool isPaused = false;
     [SerializeField] GameObject Menu;
+    [SerializeField] TextMeshProUGUI textMesh;
+    [SerializeField] Clock clock;
+
+    public void SaveData()
+    {
+        SaveSystem.SavePlayer();
+    }
+
+    public void LoadData()
+    {
+        PlayerData data = SaveSystem.LoadPlayer();
+
+        currentStamina.setStamina(data.Stamina);
+        PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Health>().setHealth(data.Health);
+
+        Vector3 newPosition;
+        newPosition.x = data.position[0];
+        newPosition.y = data.position[1];
+        newPosition.z = data.position[2];
+
+        this.transform.position = newPosition;
+    }
 
     public void setTimeScale(int @Timer)
     {
@@ -87,6 +113,13 @@ public class MoveCharacter : MonoBehaviour
 
         if (!isPaused)
         {
+            textMesh.text = (int)(84600f - clock.time) / 60  + " Minute(S) Left";
+
+            if(clock.time >= 84600f)
+            {
+                Debug.LogError("Player Lost Time!");
+            }
+
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
             if (isGrounded && velocity.y < 0) velocity.y = -2f;
 

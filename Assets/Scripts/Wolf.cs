@@ -8,22 +8,7 @@ public class Wolf : MonoBehaviour
     public static Wolf instance;
     void Awake()
     {
-        #region Singleton Method
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-        instance = this;
-        #endregion
-
         Wolve = State.Idle;
-        //_animate.Play("idle");
         Waiting_Time = 11f;
 
         currentLevels = SceneManager.GetActiveScene().name;
@@ -71,35 +56,22 @@ public class Wolf : MonoBehaviour
         return true;
     }
 
-    void changeState(float delay)
+    void OnTriggerEnter(Collider other)
     {
-        Waiting_Time = delay;
-        if(Wolve == State.Idle)
+        if (other.tag == "Player")
         {
-            Wolve = State.Walk;
+            isNearWolf = true;
         }
     }
-
-    void OnTriggerEnter(Collider other) { if (other.tag == "Player") { isNearWolf = true; } }
     void OnTriggerExit(Collider other) { if (other.tag == "Player") { isNearWolf = false; } }
 
     // Update is called once per frame
     void Update()
     {
-        if (Hunger.Count == 3) { isFinished = true; }
-
-        if (Waiting_Time <= 0) { changeAnim = true; }
-        else if (Waiting_Time > 0) { Waiting_Time -= (float)(Time.deltaTime / 5); }
     }
 
     void LateUpdate()
     {
-        if (changeAnim)
-        {
-            changeState(10f);
-            changeAnim = false;
-        }
-
         if (isFinished)
         {
             Debug.Log($"Wolf: -> Thank you, I will rest now.. Enjoy the {SceneManager.GetActiveScene().name}'s Village.");
