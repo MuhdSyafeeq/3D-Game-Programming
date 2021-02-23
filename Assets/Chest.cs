@@ -10,6 +10,7 @@ public class Chest : MonoBehaviour
 
     [SerializeField] int[] coinLimiter;
     [SerializeField] Currency _currency;
+    [SerializeField] Animator p_anime;
 
     [SerializeField] AudioSource audio;
 
@@ -49,9 +50,11 @@ public class Chest : MonoBehaviour
         {
             if (!pressOnce)
             {
+                if(p_anime == null) { p_anime = MoveCharacter.instance.GetComponentInChildren<Animator>(); }
+
                 pressOnce = true;
                 openAnim = true;
-
+                p_anime.Play("Search", -1, 0f);
                 getItem();
             }
         }
@@ -63,6 +66,8 @@ public class Chest : MonoBehaviour
         Debug.Log(RandomItem[numArr].name);
         if (RandomItem[numArr].name == "Coin")
         {
+            if(_currency == null) { _currency = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Currency>(); }
+            
             int randomCoin = Random.Range(0, 3);
             _currency.addCoin(coinLimiter[randomCoin]);
         }

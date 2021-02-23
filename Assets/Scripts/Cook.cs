@@ -8,7 +8,7 @@ public class Cook : MonoBehaviour
     // Item Checking
     Item currentIngredients;
     [SerializeField] int hotbar;
-    int sameIngre = 0;
+    [SerializeField] int sameIngre = 0;
 
     // For Item to be Stored into another Inventories
     [SerializeField] List<Item> itemCook = new List<Item>();
@@ -68,20 +68,17 @@ public class Cook : MonoBehaviour
 
     private void LateUpdate()
     {
-        if(Inventory.instance.inventories.Count != 0)
+        for(int i = 0; i < itemArr.Length; i++)
         {
-            for(int i = 0; i < 5; i++)
+            if(inBounds(i, itemCook))
             {
-                if(inBounds(i, itemCook))
-                {
-                    itemArr[i].sprite = itemCook[i].icon;
-                    itemArr[i].color = new Color(255, 255, 255, 255);
-                }
-                else
-                {
-                    itemArr[i].sprite = null;
-                    itemArr[i].color = new Color(255, 255, 255, 0);
-                }
+                itemArr[i].sprite = itemCook[i].icon;
+                itemArr[i].color = new Color(255, 255, 255, 255);
+            }
+            else
+            {
+                itemArr[i].sprite = null;
+                itemArr[i].color = new Color(255, 255, 255, 255);
             }
         }
 
@@ -89,7 +86,7 @@ public class Cook : MonoBehaviour
         {
             viewTimer.fillAmount -= (float)(Time.deltaTime / 10);
         }
-        else if(viewTimer.fillAmount == 0 && Inventory.instance.inventories.Count != 0)
+        else if(viewTimer.fillAmount == 0 && itemCook.Count != 0)
         {
             for(int i = 0; i < itemCook.Count; i++)
             {
@@ -120,41 +117,104 @@ public class Cook : MonoBehaviour
             }
         }
 
-        if(isNearPlate && Input.GetMouseButton(1))
+        if(isNearPlate && Input.GetMouseButtonDown(1) && !Input.GetMouseButtonUp(1))
         {
-            for (int i = 0; i < itemCook.Count; i++)
+            /*** 
+             * === Using Search Through Item ===
+             * Calculate Current Item in Cook, 
+             * Calculate Recipe Required, 
+             * Check if both meets requirements
+             ***/
+            
+            if(itemCook.Count != 0)
             {
-                if (itemCook[i] != null)
-                {
-                    for(int j = 0; j < recipe.itemObj.Length; j++)
-                    {
-                        if(itemCook[i] == recipe.itemObj[j])
-                        {
-                            sameIngre += 1;
-                            break;
-                        }
-                    }
-                }
-                else { Debug.Log($"I need to find ingredients before cooking..."); break; }
-            } 
+                int cur_Bread = 0, cur_Egg = 0, cur_Meat = 0, curr_Cheese = 0;
 
-            if(sameIngre == recipe.itemObj.Length)
-            {
-                sameIngre = 0;
-                Debug.Log("Finished Combine!");
-                Item combinedItem = recipe.FinalProduct;
-                Inventory.instance.inventories.Add(combinedItem);
-                for(int i = 0; i < itemCook.Count; i++)
+                for (int i = 0; i < itemCook.Count; i++)
                 {
                     if (itemCook[i] != null)
                     {
-                        Item current_ = itemCook[i];
-                        itemCook.Remove(current_);
+                        switch (itemCook[i].name)
+                        {
+                            case "Bread":
+                                cur_Bread += 1;
+                                break;
+                            case "Egg":
+                                cur_Egg += 1;
+                                break;
+                            case "Meat":
+                                cur_Meat += 1;
+                                break;
+                            case "Cheese":
+                                curr_Cheese += 1;
+                                break;
+                            default:
+                                Debug.LogError("Unable to Determine Item Name!");
+                                break;
+                        }
                     }
                 }
 
+                int req_Bread = 0, req_Egg = 0, req_Meat = 0, req_Cheese = 0;
+
+                for (int i = 0; i < recipe.itemObj.Length; i++)
+                {
+                    if (recipe.itemObj[i] != null)
+                    {
+                        switch (recipe.itemObj[i].name)
+                        {
+                            case "Bread":
+                                req_Bread += 1;
+                                break;
+                            case "Egg":
+                                req_Egg += 1;
+                                break;
+                            case "Meat":
+                                req_Meat += 1;
+                                break;
+                            case "Cheese":
+                                req_Cheese += 1;
+                                break;
+                            default:
+                                Debug.LogError("Unable to Determine Item Name!");
+                                break;
+                        }
+                    }
+                }
+
+                //Debug.LogError($"R_Bread -> {req_Bread} R_Egg -> {req_Egg} R_Meat -> {req_Meat} R_Cheese -> {req_Cheese}");
+                //Debug.LogError($"Bread -> {cur_Bread} Egg -> {cur_Egg} Meat -> {cur_Meat} Cheese -> {curr_Cheese}");
+
+                if (checkRequirements(cur_Bread, req_Bread) && checkRequirements(cur_Egg, req_Egg)
+                    && checkRequirements(cur_Meat, req_Meat) && checkRequirements(curr_Cheese, req_Cheese))
+                {
+                    Inventory.instance.inventories.Add(recipe.FinalProduct);
+                    while (true)
+                    {
+                        if (itemCook.Count > 0) itemCook.Remove(itemCook[0]);
+                        else { break; }
+                    }
+                    //for(int i = 0; i < itemCook.Count; i++)
+                    //{
+                    //    if (itemCook[i] != null)
+                    //    {
+                    //        itemCook.Remove(itemCook[i]);
+                    //    }
+                    //}
+                    cur_Bread = 0; cur_Egg = 0; cur_Meat = 0; curr_Cheese = 0;
+                    req_Bread = 0; req_Egg = 0; req_Meat = 0; req_Cheese = 0;
+                }
+                else { Debug.Log("Little Red -> I NEED MORE INGREDIENTS"); }
             }
+
+            
         }
+    }
+
+    bool checkRequirements(int @CurrentItem, int @RequiredItem) 
+    {
+        if(CurrentItem == RequiredItem) { return true; }
+        else { return false; }
     }
 
     public void Cooking(int hotkeyNum)

@@ -56,7 +56,7 @@ public class Wolf : MonoBehaviour
     [SerializeField] private State Wolve = State.Idle;
 
     // Wolf Interaction
-    private bool isNearWolf = false, isFinished = false, itemAccept = false;
+    [SerializeField] private bool isNearWolf = false, isFinished = false, itemAccept = false;
     Item intItem;
 
     bool AddItem(Item item)

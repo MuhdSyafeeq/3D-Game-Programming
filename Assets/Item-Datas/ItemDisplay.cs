@@ -27,74 +27,77 @@ public class ItemDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(key: KeyCode.Q))
+        if(MoveCharacter.isPaused == false)
         {
-            if(Inventory.instance.inventories.Count != 0)
+            if (Input.GetKeyDown(key: KeyCode.Q))
             {
-                if(Hotkey <= Inventory.instance.inventories.Count)
+                if (Inventory.instance.inventories.Count != 0)
                 {
-                    if (Inventory.instance.inventories[Hotkey - 1] != null)
+                    if (Hotkey <= Inventory.instance.inventories.Count)
                     {
-                        Debug.Log($"System: -> Item: ({Inventory.instance.inventories[Hotkey - 1].name}) dropped.");
-                        Item currentItem = Inventory.instance.inventories[Hotkey - 1];
+                        if (Inventory.instance.inventories[Hotkey - 1] != null)
+                        {
+                            Debug.Log($"System: -> Item: ({Inventory.instance.inventories[Hotkey - 1].name}) dropped.");
+                            Item currentItem = Inventory.instance.inventories[Hotkey - 1];
 
-                        var theObj = Instantiate(currentItem.itemObj, _Player.position, Quaternion.identity);
-                        if(currentItem.name == "Mushroom") { theObj.transform.localScale = new Vector3(5, 5, 5); }
-                        theObj.AddComponent<ItemPickup>();
-                        theObj.GetComponent<ItemPickup>().item = Inventory.instance.inventories[Hotkey - 1];
-                        theObj.AddComponent<SphereCollider>();
-                        theObj.GetComponent<SphereCollider>().radius = 1.5f;
-                        theObj.GetComponent<SphereCollider>().isTrigger = true;
+                            var theObj = Instantiate(currentItem.itemObj, _Player.position, Quaternion.identity);
+                            if (currentItem.name == "Mushroom") { theObj.transform.localScale = new Vector3(5, 5, 5); }
+                            theObj.AddComponent<ItemPickup>();
+                            theObj.GetComponent<ItemPickup>().item = Inventory.instance.inventories[Hotkey - 1];
+                            theObj.AddComponent<SphereCollider>();
+                            theObj.GetComponent<SphereCollider>().radius = 1.5f;
+                            theObj.GetComponent<SphereCollider>().isTrigger = true;
 
-                        Inventory.instance.Remove(currentItem);
-                        cleanUp();
+                            Inventory.instance.Remove(currentItem);
+                            cleanUp();
+                        }
                     }
+                    else { Debug.Log($"System: -> Are you trying to drop something?"); }
+
                 }
                 else { Debug.Log($"System: -> Are you trying to drop something?"); }
-
             }
-            else { Debug.Log($"System: -> Are you trying to drop something?"); }
-        }
 
-        #region HotKeys
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
-        {
-            Hotkey += 1;
-        }
-        if(Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            Hotkey -= 1;
-        }
+            #region HotKeys
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+            {
+                Hotkey += 1;
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                Hotkey -= 1;
+            }
 
-        if (Input.GetKeyDown(key: KeyCode.Alpha1))
-        {
-            Hotkey = 1;
+            if (Input.GetKeyDown(key: KeyCode.Alpha1))
+            {
+                Hotkey = 1;
+            }
+            else if (Input.GetKeyDown(key: KeyCode.Alpha2))
+            {
+                Hotkey = 2;
+            }
+            else if (Input.GetKeyDown(key: KeyCode.Alpha3))
+            {
+                Hotkey = 3;
+            }
+            else if (Input.GetKeyDown(key: KeyCode.Alpha4))
+            {
+                Hotkey = 4;
+            }
+            else if (Input.GetKeyDown(key: KeyCode.Alpha5))
+            {
+                Hotkey = 5;
+            }
+            else if (Input.GetKeyDown(key: KeyCode.Alpha6))
+            {
+                Hotkey = 6;
+            }
+            else if (Input.GetKeyDown(key: KeyCode.Alpha7))
+            {
+                Hotkey = 7;
+            }
+            #endregion
         }
-        else if (Input.GetKeyDown(key: KeyCode.Alpha2))
-        {
-            Hotkey = 2;
-        }
-        else if (Input.GetKeyDown(key: KeyCode.Alpha3))
-        {
-            Hotkey = 3;
-        }
-        else if (Input.GetKeyDown(key: KeyCode.Alpha4))
-        {
-            Hotkey = 4;
-        }
-        else if (Input.GetKeyDown(key: KeyCode.Alpha5))
-        {
-            Hotkey = 5;
-        }
-        else if (Input.GetKeyDown(key: KeyCode.Alpha6))
-        {
-            Hotkey = 6;
-        }
-        else if (Input.GetKeyDown(key: KeyCode.Alpha7))
-        {
-            Hotkey = 7;
-        }
-        #endregion
     }
 
     void cleanUp()

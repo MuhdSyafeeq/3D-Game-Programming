@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this.gameObject);
+            foreach (GameObject @object in objects)
+            {
+                DontDestroyOnLoad(@object);
+            }
         }
         else
         {

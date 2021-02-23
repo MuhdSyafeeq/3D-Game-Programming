@@ -45,6 +45,20 @@ public class MoveCharacter : MonoBehaviour
     bool isAttacking = false;
     int attackNum;
 
+    [Header("Menu Canvas Settings")]
+    [SerializeField] public static bool isPaused = false;
+    [SerializeField] GameObject Menu;
+
+    public void setTimeScale(int @Timer)
+    {
+        Time.timeScale = Timer;
+    }
+
+    public void setPause(bool Result)
+    {
+        isPaused = Result;
+    }
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var body = hit.collider.GetComponent<Rigidbody>();
@@ -58,82 +72,96 @@ public class MoveCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        if (isGrounded && velocity.y < 0) velocity.y = -2f;
-
-        inputH = Input.GetAxisRaw("Horizontal");
-        inputV = Input.GetAxisRaw("Vertical");
-        Vector3 direction = new Vector3(inputH, 0f, inputV).normalized;
-
-        if (KeepLoop && currentStamina.checkStamina())
+        if(!isPaused && Input.GetKeyDown(KeyCode.Escape) && !Input.GetKeyUp(KeyCode.Escape))
         {
-            currentStamina.reduceStamina((float)(Time.deltaTime * 0.5));
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * (speed * 2) * Time.deltaTime);
+            Time.timeScale = 0;
+            Menu.SetActive(true);
+            isPaused = true;
         }
-        else { KeepLoop = false; anime.SetBool("KeepDash", false); currentStamina.addStamina(Time.deltaTime); }
-
-
-
-        anime.SetFloat("inputH", Mathf.Abs(inputH));
-        anime.SetFloat("inputV", Mathf.Abs(inputV));
-        
-
-        if (direction.magnitude >= 0.1f)
+        else if(isPaused && Input.GetKeyDown(KeyCode.Escape) && !Input.GetKeyUp(KeyCode.Escape))
         {
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            Time.timeScale = 1;
+            Menu.SetActive(false);
+            isPaused = false;
         }
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (!isPaused)
         {
-            anime.Play("Jump", -1, 0f);
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
+            isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            if (isGrounded && velocity.y < 0) velocity.y = -2f;
 
-        if(Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
-        {
-            KeepLoop = true;
-            anime.Play("Dash", -1, 0f);
-            anime.SetBool("KeepDash", true);
-        }
+            inputH = Input.GetAxisRaw("Horizontal");
+            inputV = Input.GetAxisRaw("Vertical");
+            Vector3 direction = new Vector3(inputH, 0f, inputV).normalized;
 
-        if(Input.GetKey(KeyCode.LeftShift) == false && isGrounded)
-        {
-            KeepLoop = false;
-            anime.SetBool("KeepDash", false);
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (!isAttacking)
+            if (KeepLoop && currentStamina.checkStamina())
             {
-                isAttacking = true;
-                attackNum++;
+                currentStamina.reduceStamina((float)(Time.deltaTime * 0.5));
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
 
-                if (attackNum % 2 == 0)
-                    anime.Play("AttackA");
-                else
-                    anime.Play("AttackB");
-                isAttack = true;
-                Invoke("SetAttackAvailable", 1);
-            }            
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                controller.Move(moveDir.normalized * (speed * 2) * Time.deltaTime);
+            }
+            else { KeepLoop = false; anime.SetBool("KeepDash", false); currentStamina.addStamina(Time.deltaTime); }
+
+            anime.SetFloat("inputH", Mathf.Abs(inputH));
+            anime.SetFloat("inputV", Mathf.Abs(inputV));
+
+
+            if (direction.magnitude >= 0.1f)
+            {
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+                transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+                controller.Move(moveDir.normalized * speed * Time.deltaTime);
+            }
+
+            if (Input.GetButtonDown("Jump") && isGrounded)
+            {
+                anime.Play("Jump", -1, 0f);
+                velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
+            {
+                KeepLoop = true;
+                anime.Play("Dash", -1, 0f);
+                anime.SetBool("KeepDash", true);
+            }
+
+            if (Input.GetKey(KeyCode.LeftShift) == false && isGrounded)
+            {
+                KeepLoop = false;
+                anime.SetBool("KeepDash", false);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                if (!isAttacking)
+                {
+                    isAttacking = true;
+                    attackNum++;
+
+                    if (attackNum % 2 == 0)
+                        anime.Play("AttackA");
+                    else
+                        anime.Play("AttackB");
+                    isAttack = true;
+                    Invoke("SetAttackAvailable", 1);
+                }
+            }
+            else
+            {
+                isAttack = false;
+            }
+
+            velocity.y += gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
         }
-        else
-        {
-            isAttack = false;
-        }
-        
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
 
     void SetAttackAvailable() {

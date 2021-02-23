@@ -15,7 +15,7 @@ MonoBehaviour:
   name: Recipe Egg Sandwich
   itemObj:
   - {fileID: 11400000, guid: 470acb054c245e247a0d3887aedd2ff4, type: 2}
-  - {fileID: 11400000, guid: f8417c3a9819c334d9594c5dbacbc76f, type: 2}
+  - {fileID: 11400000, guid: 9d11d7e9ec090bc4ab4d6f01cb228aa3, type: 2}
   - {fileID: 11400000, guid: 9d11d7e9ec090bc4ab4d6f01cb228aa3, type: 2}
   FinalProduct: {fileID: 11400000, guid: f9bc565979eec1c4ca9c81136d78b296, type: 2}
   icon: {fileID: 21300000, guid: ce213a6f42e132342bd5fd9fe64dc7cc, type: 3}
