@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameOver : MonoBehaviour
 {
     [SerializeField] GameObject gameOverUI;
+    public static bool isDied = false;
     
     // Start is called before the first frame update
     void Awake()
@@ -16,8 +17,10 @@ public class GameOver : MonoBehaviour
 
     public void TryAgain()
     {
-        Destroy(GameObject.Find("*thegameobjecttobedestroyed*"));
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.instance.saveProgress(SceneManager.GetActiveScene().buildIndex);
+        MoveCharacter.instance.setPause(false);
+        MoveCharacter.instance.setTimeScale(1);
+        MainMenu.DestroyAll();
         gameOverUI.SetActive(false);
     }
 

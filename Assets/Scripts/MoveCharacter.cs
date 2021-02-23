@@ -14,6 +14,8 @@ public class MoveCharacter : MonoBehaviour
             Debug.Log("SPAWNED");
             instance = this;
             DontDestroyOnLoad(this.gameObject);
+            setPause(false);
+            setTimeScale(1);
         }
         else if(instance != null)
         {
@@ -54,6 +56,12 @@ public class MoveCharacter : MonoBehaviour
     [SerializeField] GameObject Menu;
     [SerializeField] TextMeshProUGUI textMesh;
     [SerializeField] Clock clock;
+    [SerializeField] GameObject gameOver;
+
+    public void setStaminaData(int value)
+    {
+        currentStamina.setStamina(value);
+    }
 
     public void SaveData()
     {
@@ -113,11 +121,14 @@ public class MoveCharacter : MonoBehaviour
 
         if (!isPaused)
         {
-            textMesh.text = (int)(84600f - clock.time) / 60  + " Minute(S) Left";
+            textMesh.text = ( ((84600f + 21600) / 3600) - (clock.time / 3600) ).ToString("F2") + " Hour(s) Left";
 
-            if(clock.time >= 84600f)
+            if (clock.time >= 21600 && clock.days > 0)
             {
-                Debug.LogError("Player Lost Time!");
+                GameOver.isDied = true;
+                gameOver.SetActive(true);
+                isPaused = true;
+                Time.timeScale = 0f;
             }
 
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);

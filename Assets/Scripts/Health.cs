@@ -20,7 +20,10 @@ public class Health : MonoBehaviour
     {
         if (healthBar.value <= 0)
         {
+            GameOver.isDied = true;
             gameOverUI.SetActive(true);
+            MoveCharacter.instance.setPause(true);
+            MoveCharacter.instance.setTimeScale(0);
         }
     }
 

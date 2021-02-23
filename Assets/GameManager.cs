@@ -37,6 +37,17 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"Saving...");
         StartCoroutine(LoadAsynchronously(sceneIndex));
+    }
+
+    public void ExitLevel(int sceneIndex)
+    {
+        if(!GameOver.isDied) { SaveSystem.SavePlayer(); }
+        
+        StartCoroutine(LoadAsynchronously(sceneIndex));
+        MoveCharacter.instance.setPause(false);
+        MoveCharacter.instance.setTimeScale(1);
+        MainMenu.DestroyAll();
+        GameOver.isDied = false;
         
     }
 

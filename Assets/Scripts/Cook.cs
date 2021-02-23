@@ -104,7 +104,7 @@ public class Cook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hotbar = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<ItemDisplay>().getHotkey();
+        if(PlayerCamera.instance != null) hotbar = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<ItemDisplay>().getHotkey();
         if (isNearPlate && Input.GetKey(KeyCode.E))
         {
             if (Inventory.instance.inventories.Count != 0)
