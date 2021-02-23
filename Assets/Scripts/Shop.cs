@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Shop : MonoBehaviour
 {
-    [SerializeField] Canvas ShopUI;
+    [SerializeField] GameObject ShopUI;
     [SerializeField] GameObject ConfirmPurchase;
     [SerializeField] GameObject InsufficientCoinWarning;
     [SerializeField] List<Item> ShopList = new List<Item>();
     [SerializeField] private int itemArrNum = -1;
     [SerializeField] Currency playerCurrency;
 
+    GameObject item;
     string itemPurchase;
     int coinRequired;
     bool isShop = false;
@@ -24,6 +26,7 @@ public class Shop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ShopUI.SetActive(false);
     }
 
     // Update is called once per frame
@@ -31,17 +34,14 @@ public class Shop : MonoBehaviour
     {
         if (isShop)
         {
-            ShopUI.enabled = true;
+            ShopUI.SetActive(true);
         }
     }
 
     public void ClickPurchase()
     {
-        //itemPurchase = transform.GetChild(1).GetComponent<Text>().text.ToString();
-        //coinRequired = int.Parse(transform.GetChild(3).GetComponent<Text>().text.ToString());
-
         ConfirmPurchase.SetActive(true);
-        //ConfirmPurchase.GetComponentInChildren<Text>().text = "Purchasing " + ShopList[itemArrNum].name + "?"; //itemPurchase
+        ConfirmPurchase.GetComponentInChildren<Text>().text = "Purchasing " + ShopList[itemArrNum].name + "?"; //itemPurchase
     }
 
     public void Confirmation(string @context)
@@ -73,6 +73,6 @@ public class Shop : MonoBehaviour
     public void CloseShop()
     {
         isShop = false;
-        ShopUI.enabled = false;
+        ShopUI.SetActive(false);
     }
 }

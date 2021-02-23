@@ -172,7 +172,7 @@ public class Cook : MonoBehaviour
                     if (acceptIngredientsOnly)
                     {
                         viewTimer.fillAmount = 1;
-                        Inventory.instance.inventories.Remove(currentIngredients);
+                        Inventory.instance.Remove(currentIngredients);
                     }
 
                 }

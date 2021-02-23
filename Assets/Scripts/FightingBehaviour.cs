@@ -12,6 +12,7 @@ public class FightingBehaviour : MonoBehaviour
     [SerializeField] int damage;
     [SerializeField] Animator animator;
     [SerializeField] Item Items;
+    [SerializeField] Animator playerAnimator;
     bool currentAnimating = false;
     bool isAttacking = false;
 
@@ -78,6 +79,7 @@ public class FightingBehaviour : MonoBehaviour
     void LaunchAttack()
     {
         playerHealth.reduceHealth(damage);
+        playerAnimator.Play("damaged_front");
         isAttacking = false;
     }
 

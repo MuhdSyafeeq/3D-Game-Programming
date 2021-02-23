@@ -114,7 +114,7 @@ public class Wolf : MonoBehaviour
                 {
                     intItem = Inventory.instance.inventories[i];
                     itemAccept = AddItem(intItem);
-                    if (itemAccept) { Inventory.instance.inventories.Remove(intItem); }
+                    if (itemAccept) { Inventory.instance.Remove(intItem); }
                 }
             }
             else if (Inventory.instance.inventories.Count == 0)

@@ -46,7 +46,7 @@ public class ItemDisplay : MonoBehaviour
                         theObj.GetComponent<SphereCollider>().radius = 1.5f;
                         theObj.GetComponent<SphereCollider>().isTrigger = true;
 
-                        Inventory.instance.inventories.Remove(currentItem);
+                        Inventory.instance.Remove(currentItem);
                         cleanUp();
                     }
                 }

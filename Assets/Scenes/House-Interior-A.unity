@@ -2529,7 +2529,19 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1862414159}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
-        m_MethodName: ClickPurchase
+        m_MethodName: setItemNum
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1862414160}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2541,8 +2553,8 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1862414159}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
-        m_MethodName: setItemNum
-        m_Mode: 3
+        m_MethodName: ClickPurchase
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6272,6 +6284,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Yes
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1862414160}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &755709351
@@ -11868,6 +11892,18 @@ MonoBehaviour:
           m_StringArgument: No
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1862414160}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1430934333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13491,6 +13527,18 @@ MonoBehaviour:
           m_StringArgument: Okay
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1862414160}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1650953916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13805,6 +13853,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1862414159}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
         m_MethodName: CloseShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1862414160}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15259,6 +15319,7 @@ GameObject:
   - component: {fileID: 1862414157}
   - component: {fileID: 1862414156}
   - component: {fileID: 1862414159}
+  - component: {fileID: 1862414160}
   m_Layer: 9
   m_Name: ShopUI
   m_TagString: Untagged
@@ -15362,7 +15423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f9c0099a4c6674c82b9c2ee1a258a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopUI: {fileID: 1862414158}
+  ShopUI: {fileID: 1862414154}
   ConfirmPurchase: {fileID: 1369717321}
   InsufficientCoinWarning: {fileID: 1322914561}
   ShopList:
@@ -15370,6 +15431,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 470acb054c245e247a0d3887aedd2ff4, type: 2}
   itemArrNum: -1
   playerCurrency: {fileID: 0}
+--- !u!114 &1862414160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862414154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a94c29d0b6bb2c41846f40fc44471e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1869995332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17071,7 +17144,19 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1862414159}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
-        m_MethodName: ClickPurchase
+        m_MethodName: setItemNum
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1862414160}
+        m_TargetAssemblyTypeName: ButtonSound, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17083,12 +17168,12 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1862414159}
         m_TargetAssemblyTypeName: Shop, Assembly-CSharp
-        m_MethodName: setItemNum
-        m_Mode: 3
+        m_MethodName: ClickPurchase
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

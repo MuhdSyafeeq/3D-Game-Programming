@@ -18,6 +18,10 @@ public class Inventory : MonoBehaviour
     }
     #endregion
     [SerializeField] int capacity = 7;
+    [SerializeField] AudioSource audio;
+    [SerializeField] AudioClip addItem;
+    [SerializeField] AudioClip cannotAddItem;
+    [SerializeField] AudioClip dropItem;
 
     [SerializeField] public List<Item> inventories = new List<Item>();
 
@@ -26,16 +30,18 @@ public class Inventory : MonoBehaviour
         if(inventories.Count >= capacity)
         {
             Debug.Log("Not enough spaces.");
+            audio.PlayOneShot(cannotAddItem);
             return false;
         }
         inventories.Add(item);
-        
+        audio.PlayOneShot(addItem);
 
         return true;
     }
 
     public void Remove(Item item)
     {
+        audio.PlayOneShot(dropItem);
         inventories.Remove(item);
     }
 

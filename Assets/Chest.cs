@@ -11,6 +11,8 @@ public class Chest : MonoBehaviour
     [SerializeField] int[] coinLimiter;
     [SerializeField] Currency _currency;
 
+    [SerializeField] AudioSource audio;
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
@@ -38,6 +40,7 @@ public class Chest : MonoBehaviour
             if(current_cover.rotation.x <= 0 && current_cover.rotation.x >= -0.5)
             {
                 //Debug.Log(current_cover.rotation.x);
+                audio.Play();
                 current_cover.Rotate(-(Time.deltaTime * 120), 0, 0);
             }
         }
