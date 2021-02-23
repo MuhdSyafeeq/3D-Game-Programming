@@ -4715,7 +4715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30e416dbb1242b4c8ce38ee8a91caea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: f8417c3a9819c334d9594c5dbacbc76f, type: 2}
   rotationSpeed: 150
   isAquiring: 0
   theObject: {fileID: 549384388}

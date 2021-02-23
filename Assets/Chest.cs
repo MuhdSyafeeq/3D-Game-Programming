@@ -51,7 +51,7 @@ public class Chest : MonoBehaviour
             if (!pressOnce)
             {
                 if(p_anime == null) { p_anime = MoveCharacter.instance.GetComponentInChildren<Animator>(); }
-
+                if(audio == null) { audio = GetComponent<AudioSource>(); }
                 pressOnce = true;
                 openAnim = true;
                 p_anime.Play("Search", -1, 0f);
@@ -64,6 +64,7 @@ public class Chest : MonoBehaviour
     {
         int numArr = Random.Range(0, 8);
         Debug.Log(RandomItem[numArr].name);
+        audio.PlayOneShot(audio.clip);
         if (RandomItem[numArr].name == "Coin")
         {
             if(_currency == null) { _currency = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Currency>(); }

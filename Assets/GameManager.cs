@@ -1,5 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -26,31 +29,36 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject[] objects;
     [SerializeField] bool lvlAvail = false;
 
-    public void saveProgress(int sceneBuild)
+    public GameObject loadingScreen;
+    public Slider slider;
+    public TextMeshProUGUI progressText;
+
+    public void saveProgress(int sceneIndex)
     {
         Debug.Log($"Saving...");
+        StartCoroutine(LoadAsynchronously(sceneIndex));
+        
+    }
+
+    IEnumerator LoadAsynchronously(int sceneIndex)
+    {
         foreach (GameObject @object in objects)
         {
             DontDestroyOnLoad(@object);
         }
         DontDestroyOnLoad(this.gameObject);
-        
-        try
-        {
-            SceneManager.LoadSceneAsync(sceneBuild);
-            lvlAvail = true;
-        }
-        catch (UnityException e)
-        {
-            Debug.Log($"Level int {sceneBuild}: {e.Message}");
-            lvlAvail = false;
-        }
 
-        if (lvlAvail)
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+
+        loadingScreen.SetActive(true);
+
+        while (!operation.isDone)
         {
-            SceneManager.LoadSceneAsync(sceneBuild);
-            lvlAvail = false;
+            float progress = Mathf.Clamp01(operation.progress / .9f);
+            slider.value = progress;
+            progressText.text = progress * 100f + "%";
+            yield return null;
         }
+        loadingScreen.SetActive(false);
     }
-
 }

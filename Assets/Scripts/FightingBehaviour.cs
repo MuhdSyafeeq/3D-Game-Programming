@@ -15,16 +15,27 @@ public class FightingBehaviour : MonoBehaviour
     [SerializeField] Animator playerAnimator;
     bool currentAnimating = false;
     bool isAttacking = false;
+    bool checkExistFiles = false;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         animator.speed = 0.5f;
+        checkExistFiles = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!checkExistFiles)
+        {
+            checkExistFiles = true;
+            player = MoveCharacter.instance;
+            playerHealth = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Health>();
+            animator = GetComponent<Animator>();
+            playerAnimator = MoveCharacter.instance.GetComponentInChildren<Animator>();
+        }
+
         if (canAttack)
         {
             if (!currentAnimating)
