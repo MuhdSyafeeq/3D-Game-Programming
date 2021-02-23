@@ -16,6 +16,12 @@ public class MoveCharacter : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
             setPause(false);
             setTimeScale(1);
+            if (MainMenu.loadLevel)
+            {
+                MoveCharacter.instance.LoadData();
+                Debug.Log("Loading..");
+                MainMenu.loadLevel = false;
+            }
         }
         else if(instance != null)
         {
@@ -81,6 +87,9 @@ public class MoveCharacter : MonoBehaviour
         newPosition.z = data.position[2];
 
         this.transform.position = newPosition;
+
+        Debug.Log(newPosition[0] + "," + newPosition[1] + "," + newPosition[2]);
+        Debug.Log(transform.position);
     }
 
     public void setTimeScale(int @Timer)

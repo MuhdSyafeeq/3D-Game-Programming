@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     public GameObject loadingScreen;
     public Slider slider;
     public TextMeshProUGUI progressText;
-    bool loadLevel = false;
+    public static bool loadLevel = false;
 
     public void setLoadLevel(bool result)
     {
@@ -48,9 +48,6 @@ public class MainMenu : MonoBehaviour
             progressText.text = progress * 100f + "%";
             yield return null;
         }
-        if (loadLevel) {
-            MoveCharacter.instance.LoadData();
-            loadLevel = false;
-        }
+        
     }
 }
