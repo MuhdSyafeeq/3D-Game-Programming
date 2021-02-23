@@ -6,6 +6,7 @@ public class Health : MonoBehaviour
     Slider healthBar;
     [SerializeField] int maxHealth;
     //int currentHealth;
+    [SerializeField] GameObject gameOverUI;
 
     // Start is called before the first frame update
     void Start()
@@ -13,6 +14,14 @@ public class Health : MonoBehaviour
         healthBar = GetComponent<Slider>();
         healthBar.maxValue = maxHealth;
         healthBar.value = maxHealth;
+    }
+
+    private void Update()
+    {
+        if (healthBar.value <= 0)
+        {
+            gameOverUI.SetActive(true);
+        }
     }
 
     public void setHealth(float amount)
