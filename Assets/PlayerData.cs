@@ -6,14 +6,12 @@ using UnityEngine.UI;
 [System.Serializable]
 public class PlayerData
 {
-    public int Health;
-    public int Stamina;
+    public List<Item> playerInventories;
     public float[] position;
 
     public PlayerData()
     {
-        //Health = (int)PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Health>().GetComponent<Slider>().value;
-        //Stamina = (int)PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Stamina>().GetComponent<Slider>().value;
+        //playerInventories = Inventory.instance.inventories;
 
         position = new float[3];
         position[0] = MoveCharacter.instance.transform.position.x;

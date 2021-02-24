@@ -8,6 +8,20 @@ public class Wolf : MonoBehaviour
     public static Wolf instance;
     void Awake()
     {
+        #region Singleton
+        if (instance == null)
+        {
+            Debug.Log("SPAWNED");
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else if (instance != null)
+        {
+            Debug.Log("DESTROYED");
+            Destroy(gameObject);
+        }
+        #endregion
+
         Wolve = State.Idle;
         Waiting_Time = 11f;
 

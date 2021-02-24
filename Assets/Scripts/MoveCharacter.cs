@@ -18,7 +18,7 @@ public class MoveCharacter : MonoBehaviour
             setTimeScale(1);
             if (MainMenu.loadLevel)
             {
-                MoveCharacter.instance.LoadData();
+                instance.LoadData();
                 Debug.Log("Loading..");
                 MainMenu.loadLevel = false;
             }
@@ -78,8 +78,7 @@ public class MoveCharacter : MonoBehaviour
     {
         PlayerData data = SaveSystem.LoadPlayer();
 
-        currentStamina.setStamina(data.Stamina);
-        PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Health>().setHealth(data.Health);
+        //Inventory.instance.inventories = data.playerInventories;
 
         Vector3 newPosition;
         newPosition.x = data.position[0];
