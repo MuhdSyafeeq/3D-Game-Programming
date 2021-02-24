@@ -7,18 +7,6 @@ public class Marker : MonoBehaviour
     public static Marker instance;
     void Awake()
     {
-        // Collider Transfering
-        foreach(Transform child in transform)
-        {
-            Collider collide = child.GetComponent<BoxCollider>();
-            if (collide.gameObject != gameObject)
-            {
-                ColliderBridge cb = collide.gameObject.AddComponent<ColliderBridge>();
-                cb.Initialize(this);
-            }
-        }
-        // Collider Transfering
-
         #region Singleton Method
         if (instance == null)
         {
@@ -32,6 +20,18 @@ public class Marker : MonoBehaviour
 
         instance = this;
         #endregion
+
+        // Collider Transfering
+        foreach (Transform child in transform)
+        {
+            Collider collide = child.GetComponent<BoxCollider>();
+            if (collide.gameObject != gameObject)
+            {
+                ColliderBridge cb = collide.gameObject.AddComponent<ColliderBridge>();
+                cb.Initialize(this);
+            }
+        }
+        // Collider Transfering
     }
     
     [SerializeField] GameManager gManager;
@@ -52,23 +52,14 @@ public class Marker : MonoBehaviour
             inTimer = 0;
             player_.position += (player_.forward*(float)2.5);
 
-            if(currentActiveScene == "Asset_Copy_Milestone_1")
+            if (currentActiveScene == "Milestone 1")
+            {
+                gManager.saveProgress(2);
+            }
+            else if (currentActiveScene == "House-Interior-A")
             {
                 gManager.saveProgress(1);
             }
-            else if(currentActiveScene == "House-Interior-A")
-            {
-                gManager.saveProgress(3);
-            }
-
-            //if (currentActiveScene == "Milestone 1")
-            //{
-            //    gManager.saveProgress(1);
-            //}
-            //else if (currentActiveScene == "House-Interior-A")
-            //{
-            //    gManager.saveProgress(0);
-            //}
         }
     }
 

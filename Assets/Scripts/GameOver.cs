@@ -20,8 +20,9 @@ public class GameOver : MonoBehaviour
         GameManager.instance.saveProgress(SceneManager.GetActiveScene().buildIndex);
         MoveCharacter.instance.setPause(false);
         MoveCharacter.instance.setTimeScale(1);
-        MainMenu.DestroyAll();
         gameOverUI.SetActive(false);
+        MainMenu.DestroyAll();
+        
     }
 
     public void Quit()

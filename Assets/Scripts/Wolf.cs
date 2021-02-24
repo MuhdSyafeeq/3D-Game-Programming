@@ -23,6 +23,7 @@ public class Wolf : MonoBehaviour
         }
         #endregion
 
+        isFinished = false;
         if (agent == null) agent = GetComponent<NavMeshAgent>();
         currentLevels = SceneManager.GetActiveScene().name;
         if (currentLevels == "Milestone1")
@@ -41,13 +42,25 @@ public class Wolf : MonoBehaviour
     private bool changeAnim = false;
 
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] GameObject gameEnd;
 
     // Wolf Interaction
     [SerializeField] private bool isNearWolf = false, isFinished = false, itemAccept = false;
     Item intItem;
 
+    public void resetLevel()
+    {
+        isFinished = false;
+    }
+
     bool AddItem(Item item)
     {
+        if(Hunger.Count == Hunger.Capacity)
+        {
+            isFinished = true;
+            return false;
+        }
+
         if(item.name != "Sandwich")
         {
             Debug.Log("That's Not What I Wanted");
@@ -115,8 +128,15 @@ public class Wolf : MonoBehaviour
 
         if (isFinished)
         {
-            Debug.Log($"Wolf: -> Thank you, I will rest now.. Enjoy the {SceneManager.GetActiveScene().name}'s Village.");
-            Debug.LogError("Game Ended");
+            //Debug.Log($"Wolf: -> Thank you, I will rest now.. Enjoy the {SceneManager.GetActiveScene().name}'s Village.");
+            //Debug.LogError("Game Ended");
+            GameOver.isDied = true;
+            gameEnd = PlayerCamera.instance.transform.GetChild(2).gameObject;
+            gameEnd.SetActive(true);
+            MoveCharacter.instance.setPause(true);
+            MoveCharacter.instance.setTimeScale(0);
+            isFinished = false;
+
         }
 
         if (isNearWolf && Input.GetKeyDown(KeyCode.E))
