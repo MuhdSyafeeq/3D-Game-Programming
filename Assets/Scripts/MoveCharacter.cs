@@ -11,7 +11,7 @@ public class MoveCharacter : MonoBehaviour
     {
         if (instance == null)
         {
-            Debug.Log("SPAWNED");
+            //Debug.Log("SPAWNED");
             instance = this;
             DontDestroyOnLoad(this.gameObject);
             setPause(false);
@@ -27,8 +27,9 @@ public class MoveCharacter : MonoBehaviour
         }
         else if(instance != null)
         {
-            Debug.Log("DESTROYED");
+            
             gameObject.tag = "Untagged";
+            //this.gameObject.SetActive(false);
             Destroy(gameObject);
         }
     }

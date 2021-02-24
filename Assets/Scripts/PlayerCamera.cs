@@ -21,38 +21,38 @@ public class PlayerCamera : MonoBehaviour
     }
     #endregion
 
-    [SerializeField] Transform Player;
-    [SerializeField] private Vector3 cameraOffset_;
-
-    [Range(0.01f, 1.0f)]
-    [SerializeField] private float SmoothFactor      = 0.125f; //0.5f;
-    [SerializeField] private float RotationSpeed     = 5.0f;
-
-    [SerializeField] CinemachineFreeLook myScripts;
-
-    private Quaternion canTurnAngle, turnUpAngle;
+    [SerializeField] float RotateSpeed = 1;
+    [SerializeField] Transform Target, Player;
+    [SerializeField] float mouseX, mouseY;
 
     void Start()
     {
-        cameraOffset_ = transform.position - Player.position;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     
     void LateUpdate()
     {
-        Vector3 desiredPosition = Player.position + cameraOffset_;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, SmoothFactor);
-        transform.position = Player.position + cameraOffset_;
+        CameraControl();
+    }
 
-        transform.LookAt(Player.transform);
+    void CameraControl()
+    {
+        mouseX += Input.GetAxis("Mouse X") * RotateSpeed;
+        mouseY -= Input.GetAxis("Mouse Y") * RotateSpeed;
+        mouseY = Mathf.Clamp(mouseY, -35, 60);
 
+        transform.LookAt(Target);
 
-        if(Input.GetKeyDown(key: KeyCode.LeftAlt))
+        if (Input.GetKey(KeyCode.LeftAlt))
         {
-            myScripts.enabled = false;
+            Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
         }
-        if (Input.GetKeyUp(key: KeyCode.LeftAlt))
+        else
         {
-            myScripts.enabled = true;
+            Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
+            Player.rotation = Quaternion.Euler(0, mouseX, 0);
         }
+        
     }
 }
