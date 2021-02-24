@@ -139,6 +139,8 @@ public class MoveCharacter : MonoBehaviour
 
         if (!isPaused)
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             if (clock.time > 21600)
             {
                 textMesh.text = (((84600f + 21600) / 3600) - (clock.time / 3600)).ToString("F2") + " Hour(s) Left";
@@ -231,6 +233,11 @@ public class MoveCharacter : MonoBehaviour
 
             velocity.y += gravity * Time.deltaTime;
             controller.Move(velocity * Time.deltaTime);
+        }
+        else
+        {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
