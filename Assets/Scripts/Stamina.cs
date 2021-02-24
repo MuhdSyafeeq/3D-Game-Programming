@@ -11,6 +11,11 @@ public class Stamina : MonoBehaviour
         staminaBar.value = staminaBar.maxValue;
     }
 
+    public void refillStamina()
+    {
+        staminaBar.value = staminaBar.maxValue;
+    }
+
     public void setStamina(float amount)
     {
         staminaBar.value = amount;

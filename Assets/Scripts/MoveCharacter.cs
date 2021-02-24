@@ -18,7 +18,6 @@ public class MoveCharacter : MonoBehaviour
             setTimeScale(1);
             if (MainMenu.loadLevel)
             {
-
                 instance.LoadData();
 
                 LoadData();

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class Wolf : MonoBehaviour
@@ -22,24 +23,13 @@ public class Wolf : MonoBehaviour
         }
         #endregion
 
-        Wolve = State.Idle;
-        Waiting_Time = 11f;
-
+        if (agent == null) agent = GetComponent<NavMeshAgent>();
         currentLevels = SceneManager.GetActiveScene().name;
         if (currentLevels == "Milestone1")
         {
             Hunger = new List<Item>(3);
             Debug.Log($"Wolf: -> Feed me with this {SceneManager.GetActiveScene().name}'s best Sandwiches.");
         }
-    }
-
-    enum State
-    {
-        Idle,
-        Walk,
-        Chase,
-        Jump,
-        Attack,
     }
 
     // Wolf Inventories / Food Requirements
@@ -50,9 +40,7 @@ public class Wolf : MonoBehaviour
     [SerializeField] Animation _animate;
     private bool changeAnim = false;
 
-    // Wolf State
-    [SerializeField] private float Waiting_Time;
-    [SerializeField] private State Wolve = State.Idle;
+    [SerializeField] NavMeshAgent agent;
 
     // Wolf Interaction
     [SerializeField] private bool isNearWolf = false, isFinished = false, itemAccept = false;
@@ -77,7 +65,34 @@ public class Wolf : MonoBehaviour
             isNearWolf = true;
         }
     }
-    void OnTriggerExit(Collider other) { if (other.tag == "Player") { isNearWolf = false; } }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player") {
+            isNearWolf = false;
+        }
+    }
+
+    void wander()
+    {
+        float valX = Random.Range(-500, 500);
+        float valZ = Random.Range(-500, 500);
+
+        Vector3 newPosition = new Vector3 (valX, this.transform.position.y, valZ);
+
+        NavMeshPath path = new NavMeshPath();
+        agent.CalculatePath(newPosition, path);
+        if(path.status == NavMeshPathStatus.PathPartial)
+        {
+            _animate.PlayQueued("idle", QueueMode.PlayNow);
+            wander();
+        }
+        else
+        {
+            agent.SetDestination(newPosition);
+            _animate.PlayQueued("walk", QueueMode.PlayNow);
+        }
+    }
 
     // Update is called once per frame
     void Update()
@@ -86,6 +101,18 @@ public class Wolf : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!agent.pathPending)
+        {
+            if(agent.remainingDistance <= agent.stoppingDistance)
+            {
+                if(!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                {
+                    _animate.PlayQueued("idle", QueueMode.PlayNow);
+                    wander();
+                }
+            }
+        }
+
         if (isFinished)
         {
             Debug.Log($"Wolf: -> Thank you, I will rest now.. Enjoy the {SceneManager.GetActiveScene().name}'s Village.");

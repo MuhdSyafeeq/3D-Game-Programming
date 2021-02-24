@@ -96,6 +96,9 @@ public class FightingBehaviour : MonoBehaviour
 
     void dropItem()
     {
+        playerHealth.addHealth(1);
+        PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Stamina>().refillStamina();
+
         var _Items = Instantiate(
             Items.itemObj,
             new Vector3(
