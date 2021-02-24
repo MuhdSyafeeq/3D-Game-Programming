@@ -13,10 +13,8 @@ public class Shop : MonoBehaviour
     [SerializeField] private int itemArrNum = -1;
     [SerializeField] Currency playerCurrency;
 
-    GameObject item;
     string itemPurchase;
     int coinRequired;
-    bool isShop = false;
 
     public void setItemNum(int num)
     {
@@ -32,9 +30,10 @@ public class Shop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isShop)
+        if (ShopUI.activeSelf)
         {
-            ShopUI.SetActive(true);
+            MoveCharacter.isPaused = true;
+            Time.timeScale = 0;
         }
     }
 
@@ -72,7 +71,8 @@ public class Shop : MonoBehaviour
 
     public void CloseShop()
     {
-        isShop = false;
         ShopUI.SetActive(false);
+        MoveCharacter.isPaused = false;
+        Time.timeScale = 1;
     }
 }

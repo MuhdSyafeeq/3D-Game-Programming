@@ -18,7 +18,10 @@ public class MoveCharacter : MonoBehaviour
             setTimeScale(1);
             if (MainMenu.loadLevel)
             {
+
                 instance.LoadData();
+
+                LoadData();
                 Debug.Log("Loading..");
                 MainMenu.loadLevel = false;
             }
@@ -78,7 +81,12 @@ public class MoveCharacter : MonoBehaviour
     {
         PlayerData data = SaveSystem.LoadPlayer();
 
+
         //Inventory.instance.inventories = data.playerInventories;
+
+        //currentStamina.setStamina(data.Stamina);
+        //PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Health>().setHealth(data.Health);
+
 
         Vector3 newPosition;
         newPosition.x = data.position[0];
@@ -129,7 +137,15 @@ public class MoveCharacter : MonoBehaviour
 
         if (!isPaused)
         {
-            textMesh.text = ( ((84600f + 21600) / 3600) - (clock.time / 3600) ).ToString("F2") + " Hour(s) Left";
+            if (clock.time > 21600)
+            {
+                textMesh.text = (((84600f + 21600) / 3600) - (clock.time / 3600)).ToString("F2") + " Hour(s) Left";
+            }
+            else if (clock.time > 0)
+            {
+                textMesh.text = (((84600f + 21600) / 3600) - ((clock.time + 84600) / 3600)).ToString("F2") + " Hour(s) Left";
+            }
+                
 
             if (clock.time >= 21600 && clock.days > 0)
             {

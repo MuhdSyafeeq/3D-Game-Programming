@@ -11,7 +11,12 @@ public class PlayerData
 
     public PlayerData()
     {
+
         //playerInventories = Inventory.instance.inventories;
+
+        //Health = (int)PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Health>().GetComponent<Slider>().value;
+        //Stamina = (int)PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Stamina>().GetComponent<Slider>().value;
+
 
         position = new float[3];
         position[0] = MoveCharacter.instance.transform.position.x;
