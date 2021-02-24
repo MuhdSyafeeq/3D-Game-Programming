@@ -24,35 +24,45 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] float RotateSpeed = 1;
     [SerializeField] Transform Target, Player;
     [SerializeField] float mouseX, mouseY;
+    //[SerializeField] CinemachineBrain theBrain;
+    //[SerializeField] CinemachineFreeLook theController;
 
     void Start()
     {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+
+        //if(theController == null || theBrain == null)
+        //{
+        //    theBrain = GetComponent<CinemachineBrain>();
+        //    theController = GetComponentInChildren<CinemachineFreeLook>();
+        //}
     }
     
     void LateUpdate()
     {
-        CameraControl();
+        //CameraControl();
+        //theController.m_Follow = MoveCharacter.instance.transform;
+        //theBrain.transform.position = MoveCharacter.instance.transform.position;
     }
 
     void CameraControl()
     {
-        mouseX += Input.GetAxis("Mouse X") * RotateSpeed;
-        mouseY -= Input.GetAxis("Mouse Y") * RotateSpeed;
-        mouseY = Mathf.Clamp(mouseY, -35, 60);
+        //mouseX += Input.GetAxis("Mouse X") * RotateSpeed;
+        //mouseY -= Input.GetAxis("Mouse Y") * RotateSpeed;
+        //mouseY = Mathf.Clamp(mouseY, -35, 60);
 
-        transform.LookAt(Target);
+        //transform.LookAt(Target);
 
-        if (Input.GetKey(KeyCode.LeftAlt))
-        {
-            Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
-        }
-        else
-        {
-            Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
-            Player.rotation = Quaternion.Euler(0, mouseX, 0);
-        }
-        
+        //if (Input.GetKey(KeyCode.LeftAlt))
+        //{
+        //    Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
+        //}
+        //else
+        //{
+        //    Target.rotation = Quaternion.Euler(mouseY, mouseX, 0);
+        //    Player.rotation = Quaternion.Euler(0, mouseX, 0);
+        //}
+
     }
 }

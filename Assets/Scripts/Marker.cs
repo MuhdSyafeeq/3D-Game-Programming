@@ -52,14 +52,23 @@ public class Marker : MonoBehaviour
             inTimer = 0;
             player_.position += (player_.forward*(float)2.5);
 
-            if(currentActiveScene == "Milestone1")
+            if(currentActiveScene == "Asset_Copy_Milestone_1")
             {
                 gManager.saveProgress(1);
             }
             else if(currentActiveScene == "House-Interior-A")
             {
-                gManager.saveProgress(0);
+                gManager.saveProgress(3);
             }
+
+            //if (currentActiveScene == "Milestone 1")
+            //{
+            //    gManager.saveProgress(1);
+            //}
+            //else if (currentActiveScene == "House-Interior-A")
+            //{
+            //    gManager.saveProgress(0);
+            //}
         }
     }
 

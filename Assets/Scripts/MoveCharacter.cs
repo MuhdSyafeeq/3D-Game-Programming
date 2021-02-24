@@ -122,6 +122,8 @@ public class MoveCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        currentStamina = PlayerCamera.instance.GetComponentInChildren<Canvas>().GetComponentInChildren<Stamina>();
+
         if(!isPaused && Input.GetKeyDown(KeyCode.Escape) && !Input.GetKeyUp(KeyCode.Escape))
         {
             Time.timeScale = 0;

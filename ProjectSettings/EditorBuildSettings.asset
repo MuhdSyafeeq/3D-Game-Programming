@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Start-Menu.unity
     guid: 02f0e151e93bd2247bd9aba24e8a0f70
+  - enabled: 1
+    path: Assets/Scenes/Asset_Copy_Milestone_1.unity
+    guid: 4a39a55b11f5d0c4faef5ac6b38ac665
   m_configObjects: {}
